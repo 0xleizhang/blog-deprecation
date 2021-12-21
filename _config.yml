@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Red Ram Software
 subtitle: ''
-description: ''
+description: 'deploy your selfhosted software to any cloud platform by one click'
 keywords:
-author: John Doe
+author: ray zhang
 language: en
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://bitseatech.cn
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
