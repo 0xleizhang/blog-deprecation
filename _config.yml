@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Red Ram Software
-subtitle: ''
-description: 'deploy your selfhosted software to any cloud platform by one click'
-keywords:
-author: ray zhang
+title: 三石说(一个程序员的博客)
+subtitle: '🪨🪨🪨'
+description: '一个码农的博客'
+keywords: 程序员, 编程
+author: Lei.Zhang
 language: en
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://bitseatech.cn
-permalink: :year/:title/
+permalink: :title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
