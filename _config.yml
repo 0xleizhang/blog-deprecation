@@ -105,3 +105,13 @@ deploy:
   type: 'git'
   repository: git@github.com:seven4x/seven4x.github.io.git
   branch: github-pages
+
+feed:
+  # Generate both atom and rss2 feeds
+  type:
+    - atom
+    - rss2
+  path:
+    - atom.xml
+    - rss2.xml
+  limit: false
