@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 三石说(一个程序员的博客)
+title: "Lei Zhang's Blog"
 subtitle: '🪨🪨🪨'
-description: '一个码农的博客'
-keywords: 程序员, 编程
+description: 'software engineering'
+keywords: 程序员, 编程,'software engineering','computer programming'
 author: Lei.Zhang
 language: en
 timezone: 'Asia/Shanghai'
