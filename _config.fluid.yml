@@ -862,9 +862,10 @@ about:
   # More icons can be found from https://hexo.fluid-dev.com/docs/en/icon/  `class` is the css class of the icon. If adding `qrcode`, The icon is no longer a link, but a hovering QR code
   icons:
     - { class: "iconfont icon-github-fill", link: "https://github.com/seven4x", tip: "GitHub" }
-    - { class: "iconfont icon-bilibili-fill", link: "https://space.bilibili.com/284623903", tip: "B站" }
-    - { class: "iconfont icon-douban-fill", link: "https://www.douban.com/people/63843857", tip: "豆瓣" }
+    - { class: "iconfont icon-bilibili-fill", link: "https://space.bilibili.com/284623903", tip: "停更" }
+    - { class: "iconfont icon-douban-fill", link: "https://www.douban.com/people/63843857", tip: "少" }
     - { class: "iconfont icon-wechat-fill", qrcode: "/img/qrcode-wechat.png" }
+    - { class: "iconfont icon-youtube-fill", link: "https://www.youtube.com/@kamaleizhang/streams", tip: "vlog@油" }
 
 
 #---------------------------
