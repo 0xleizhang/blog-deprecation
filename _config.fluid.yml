@@ -907,26 +907,32 @@ links:
   # Member item of page
   items:
     - {
-      title: "码翁",
-      intro: "B站投稿视频",
-      link: "https://space.bilibili.com/284623903",
-      avatar: "/img/icon-bilibili.jpeg"
-    }
-    - {
-      title: "憨娄",
-      intro: "语雀笔记",
-      link: "https://www.yuque.com/seven4x/kb",
-      avatar: "/img/icon-yuque.jpeg"
-    }
-    - {
       title: "GitHub",
-      intro: "Ray",
+      intro: "seven4x",
       link: "https://github.com/seven4x",
       avatar: "/img/icon-github.png"
     }
     - {
-      title: "破茧",
-      intro: "一个网址收藏及评论网站",
+      title: "YouTube",
+      intro: "vlog@油",
+      link: "https://www.youtube.com/@kamaleizhang/streams",
+      avatar: "/img/icon-youtube.png"
+    }
+    - {
+      title: "码翁",
+      intro: "停更了",
+      link: "https://space.bilibili.com/284623903",
+      avatar: "/img/icon-bilibili.jpeg"
+    }
+    - {
+      title: "憨娄-语雀笔记",
+      intro: "停更了",
+      link: "https://www.yuque.com/seven4x/kb",
+      avatar: "/img/icon-yuque.jpeg"
+    }
+    - {
+      title: "破茧-一个网址收藏及评论网站",
+      intro: "下线了",
       link: "https://bitseatech.com",
       avatar: "/img/link-favicon.ico"
     }
