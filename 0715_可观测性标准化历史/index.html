@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/red-ram-01.jpeg">
+  <link rel="icon" href="/img/red-ram-01.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Lei.Zhang">
+  <meta name="keywords" content="程序员, 编程,&#39;software engineering&#39;,&#39;computer programming&#39;">
+  
+    <meta name="description" content="云原生吹水Ep.3 来看一下历史悠久、竞争异常激烈并且和dev密切相关的领域：可观测性（observability），但是这个话题太大，我们就只吹一点：云原生可观测标准化历史。先来看一下这些名词你认识几个？  OpenTracing OpenCensus OpenTelemetry OpenMetrics  OpenObservability  都不认识扣1，认识3个及以上扣2，很长一段时间我都分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="可观测性标准化历史">
+<meta property="og:url" content="https://bitseatech.cn/0715_%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%A0%87%E5%87%86%E5%8C%96%E5%8E%86%E5%8F%B2/index.html">
+<meta property="og:site_name" content="Lei Zhang&#39;s Blog">
+<meta property="og:description" content="云原生吹水Ep.3 来看一下历史悠久、竞争异常激烈并且和dev密切相关的领域：可观测性（observability），但是这个话题太大，我们就只吹一点：云原生可观测标准化历史。先来看一下这些名词你认识几个？  OpenTracing OpenCensus OpenTelemetry OpenMetrics  OpenObservability  都不认识扣1，认识3个及以上扣2，很长一段时间我都分">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://bitseatech.cn/img/gartner.png">
+<meta property="article:published_time" content="2022-07-15T07:52:00.000Z">
+<meta property="article:modified_time" content="2023-04-05T15:43:42.044Z">
+<meta property="article:author" content="Lei.Zhang">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="内部分享">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bitseatech.cn/img/gartner.png">
+  
+  
+  
+  <title>可观测性标准化历史 - Lei Zhang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bitseatech.cn","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"2a9835983c4c33575e95bce7565aa890","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"LQD90C1JTpntoNjBFFoQoYLI-gzGzoHsz","app_key":"8lXUxS9bGktupCXVbLTDLuuG","server_url":"https://lqd90c1j.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2a9835983c4c33575e95bce7565aa890";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Lei Zhang's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Lei Zhang's Blog" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 25vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lei Zhang&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>Links</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">可观测性标准化历史</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-15 15:52" pubdate>
+          July 15, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.8k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">可观测性标准化历史</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>云原生吹水Ep.3 来看一下历史悠久、竞争异常激烈并且和dev密切相关的领域：可观测性（observability），但是这个话题太大，我们就只吹一点：云原生可观测标准化历史。先来看一下这些名词你认识几个？</p>
+<ul>
+<li>OpenTracing</li>
+<li>OpenCensus</li>
+<li>OpenTelemetry</li>
+<li>OpenMetrics </li>
+<li>OpenObservability</li>
+</ul>
+<p>都不认识扣1，认识3个及以上扣2，很长一段时间我都分不清他们，如果你能如数家珍绝对是云原生老司机了。</p>
+<p>这里的很多知识点来源于<a target="_blank" rel="noopener" href="http://icyfenix.cn/distribution/observability/tracing.html#%E8%BF%BD%E8%B8%AA%E8%A7%84%E8%8C%83%E5%8C%96">这个电子书</a>，我这里只是给大家做一下演绎性的总结，这个专栏写的很棒有兴趣可以追根溯源再去看一下专栏。</p>
+<p>以下是我理解的时间线：</p>
+<ol>
+<li><p>APM和基础监控时代，没有标准。典型的如<a target="_blank" rel="noopener" href="https://www.zabbix.com/">Zabbix</a>，现在的zabbix仍然宝刀未老在云原生可观测性领域仍占有一席之地。还有基于agent技术做APM性能监控的例如<a target="_blank" rel="noopener" href="https://www.oneapm.com/">oneapm</a>。这个时候在营销上还不怎么谈observability</p>
+</li>
+<li><p><strong>2010年</strong><a target="_blank" rel="noopener" href="https://research.google/pubs/pub36356/">Dapper论文</a>发布，dapper可以说是多数分布式系统链路追踪的祖师爷</p>
+</li>
+<li><p>后来就是tracing领域百花齐放，然后大家想着要不搞个标准化吧，于是<strong>2016年</strong> OpenTracing  released,大家可以在从<a target="_blank" rel="noopener" href="https://opentracing.io/specification/organization/">这里</a>看到参与这个项目的有：Zipkin，LightStep，New Relic，DataDog，SkyWalking，Jaeger…</p>
+</li>
+<li><p>但是Google反对OpenTracing,<strong>2018年</strong>开源了OpenCensus，想把metrics,tracing放在一个规范里</p>
+<blockquote>
+<p>OpenTracing 规范公布后，几乎所有业界有名的追踪系统，譬如 Zipkin、Jaeger、SkyWalking 等都很快宣布支持 OpenTracing，但谁也没想到的是，Google 自己却在此时出来表示反对，并提出了与 OpenTracing 目标类似的 OpenCensus 规范，随后又得到了巨头 Microsoft 的支持和参与。OpenCensus 不仅涉及追踪，还把指标度量也纳入进来；内容上不仅涉及规范制定，还把数据采集的探针和收集器都一起以 SDK（目前支持五种语言）的形式提供出来。</p>
+</blockquote>
+</li>
+</ol>
+<p>​	这里就值得大家思考一下，为什么要把logs,metrics,tracing放在一起，假如我们用大腿想一下应该是他们总是息息相关，这里推荐一个<a target="_blank" rel="noopener" href="https://lib.jimmysong.io/opentelemetry-obervability/history/">电子书专栏文章</a>，解释了为什么要放在一起。</p>
+<ol start="5">
+<li><p><strong>2019年末</strong> openTracing + openCenus&#x3D;<a target="_blank" rel="noopener" href="https://opentelemetry.io/docs/concepts/what-is-opentelemetry/">OpenTelemetry</a> 两个项目合并了，新的项目是简称 <code>OTel</code>  	 </p>
+<p>OpenTelemetry不仅仅是文件规范它等于 tools+API+SDK</p>
+</li>
+</ol>
+<p>​		现在如果你想学习可观测把精力focus在OpenTelemetry肯定没错了，现在可观测领域的厂商基本都在支持OTel,比如<a target="_blank" rel="noopener" href="https://www.elastic.co/explore/devops-observability/2022-gartner-magic-quadrant-apm">Gartner魔力四象</a>限上领跑的我们用的<a target="_blank" rel="noopener" href="https://docs.datadoghq.com/tracing/trace_collection/open_standards/#pagetitle">datadog</a>已经支持了.</p>
+<p>​		但是OTel现在logs部分还是<a target="_blank" rel="noopener" href="https://opentelemetry.io/status/">draft状态</a>，<a target="_blank" rel="noopener" href="https://www.elastic.co/what-is/elk-stack">elastic ELK </a>仍然是统治地位</p>
+<p>稍微再一下谈另外两个：OpenMetrics，OpenObservability</p>
+<p>OpenMetrics是prometheus将自己的实现做了标准化之后的产物，响应者寥寥，但是不影响在云原生领域metric老大哥的地位，可谓是事实上的标准，但是现在也要做<a target="_blank" rel="noopener" href="https://opentelemetry.io/docs/reference/specification/metrics/sdk_exporters/prometheus/">接入OTel的工作</a>，所谓一流的企业制定标准，人家可以通过标准直接实现降维打击，类似的例子有K8S是怎样一步步制定自己的标准将Docker完全移除的，这又是另一个故事了。</p>
+<p>prometheus作为这个领域的竞争者之一确切的说应该是prometheus生态（prometheus + alter manager + thanos+grafana)</p>
+<p>OpenObservability其实并不存在这个项目，只是OpenMetrics在<a target="_blank" rel="noopener" href="https://github.com/OpenObservability?type=source">GitHub</a>上的group name是这个，可见prometheus这帮人还是有的野心的。另外<a target="_blank" rel="noopener" href="https://openobservability.io/">OpenObservability</a>还是一个技术播客的名字，这纯属就是蹭流量了。</p>
+<p>可以说标准化之争大局已定，带来的影响就是更激烈的市场竞争，更全面的可观测解决方案。log+metrics+tracing成了一揽子方案。</p>
+<p>做搜索起家的elastic ELK（log)成功之后又进军基于metric的<a target="_blank" rel="noopener" href="https://www.elastic.co/observability">Monitoring领域</a></p>
+<p>做tracing起家的Skywalking现在也做了Logging，Metrics，而且还要基于现在大火的eBPF做profiling</p>
+<p>这个领域最终鹿死谁手，谁将逐鹿中原，谁会一家独大尚未可知。</p>
+<p><img src="/img/gartner.png" srcset="/img/loading.gif" lazyload alt="gartner"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">#云原生</a>
+      
+        <a href="/tags/%E5%86%85%E9%83%A8%E5%88%86%E4%BA%AB/">#内部分享</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>可观测性标准化历史</div>
+      <div>https://bitseatech.cn/0715_可观测性标准化历史/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Lei.Zhang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 15, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/0722_Dapr%E8%83%BD%E5%90%A6%E6%94%B9%E5%8F%98%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/" title="Dapr能否改变云原生时代使用中间件的方式？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Dapr能否改变云原生时代使用中间件的方式？</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/0708_CI_CD%E6%88%90%E7%86%9F%E5%BA%A6/" title="CI/CD成熟度">
+                        <span class="hidden-mobile">CI/CD成熟度</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'threestoneblog',
+              apikey: '0zCJJ1D9WGSCRpYVwGwitQKjm8SsNIGPUSZIDfHnuGLqZ2x3PscYSxjrkDPep1KK'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

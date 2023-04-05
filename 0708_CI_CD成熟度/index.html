@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/red-ram-01.jpeg">
+  <link rel="icon" href="/img/red-ram-01.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Lei.Zhang">
+  <meta name="keywords" content="程序员, 编程,&#39;software engineering&#39;,&#39;computer programming&#39;">
+  
+    <meta name="description" content="云原生吹水Ep.2 来聊聊：你觉得现在所在的 team CI&#x2F;CD 建设的怎么样？欢迎大家用表情投票 1⃣️ 烂的一批，我要吐槽 2⃣️ 够用，还有很大的提升空间 3⃣️ 还行，没有多少地方能提升的了 4⃣️ 优秀，我要怒赞 为了评估我们的CI&#x2F;CD (Continuous Integration&#x2F;Continuous Delivery&#x2F;Continuous">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CI&#x2F;CD成熟度">
+<meta property="og:url" content="https://bitseatech.cn/0708_CI_CD%E6%88%90%E7%86%9F%E5%BA%A6/index.html">
+<meta property="og:site_name" content="Lei Zhang&#39;s Blog">
+<meta property="og:description" content="云原生吹水Ep.2 来聊聊：你觉得现在所在的 team CI&#x2F;CD 建设的怎么样？欢迎大家用表情投票 1⃣️ 烂的一批，我要吐槽 2⃣️ 够用，还有很大的提升空间 3⃣️ 还行，没有多少地方能提升的了 4⃣️ 优秀，我要怒赞 为了评估我们的CI&#x2F;CD (Continuous Integration&#x2F;Continuous Delivery&#x2F;Continuous">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://bitseatech.cn/img/cicdmodel_1.jpg">
+<meta property="og:image" content="https://bitseatech.cn/img/cicdmodel_bekk.png">
+<meta property="article:published_time" content="2022-07-08T07:52:00.000Z">
+<meta property="article:modified_time" content="2023-04-05T15:43:42.040Z">
+<meta property="article:author" content="Lei.Zhang">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="内部分享">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bitseatech.cn/img/cicdmodel_1.jpg">
+  
+  
+  
+  <title>CI/CD成熟度 - Lei Zhang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bitseatech.cn","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"2a9835983c4c33575e95bce7565aa890","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"LQD90C1JTpntoNjBFFoQoYLI-gzGzoHsz","app_key":"8lXUxS9bGktupCXVbLTDLuuG","server_url":"https://lqd90c1j.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2a9835983c4c33575e95bce7565aa890";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Lei Zhang's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Lei Zhang's Blog" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 25vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lei Zhang&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>Links</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">CI/CD成熟度</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-08 15:52" pubdate>
+          July 8, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CI/CD成熟度</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>云原生吹水Ep.2 来聊聊：你觉得现在所在的 team CI&#x2F;CD 建设的怎么样？欢迎大家用表情投票</p>
+<p>1⃣️ 烂的一批，我要吐槽</p>
+<p>2⃣️ 够用，还有很大的提升空间</p>
+<p>3⃣️ 还行，没有多少地方能提升的了</p>
+<p>4⃣️ 优秀，我要怒赞</p>
+<p>为了评估我们的CI&#x2F;CD (Continuous Integration&#x2F;Continuous Delivery&#x2F;Continuous Deployment)水平 今天给大家介绍一个概念：CI&#x2F;CD成熟度模型（MATURITY MODEL）。这玩意可以用来指导我们进行CI&#x2F;CD建设。</p>
+<p>首先这个模型不是由某个权威机构发布的，有知名公司发布的，也有阿猫阿狗发布的。基本思想都差不多，只是维度上有些差别。</p>
+<p>格式上来说都是两个轴：一个轴是成熟程度，另外一个轴是engineering活动分类。</p>
+<p>我认为比较好看的是这两个：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://bekkopen.github.io/maturity-model/">bekkopen cd maturity-model</a>一家挪威公司</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUxNTEwNTg5Mg==&mid=2247488305&idx=1&sn=cf40ab3c34d3a997c8d9c7e7a890b4c6&chksm=f9bae63acecd6f2c5167c297e4a116c8f38bef7b62a8562fdb40434265e0be6eaccacab5dca7&token=594338237&lang=zh_CN#rd">Andreas Rehn，Tobias Palmborg，Patrik Boström版</a>。<a target="_blank" rel="noopener" href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model/">原文</a></li>
+</ul>
+<p> 另外能search到的还有很多，可以参考</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pages.awscloud.com/rs/112-TZM-766/images/A-Roadmap-to-Continuous-Delivery-Pipeline-Maturity-dev-whitepaper.pdf">AWS marketplace</a></li>
+<li><a target="_blank" rel="noopener" href="https://clarive.com/quick-check-your-continuous-delivery-maturity/">clarive</a>公司</li>
+<li><a target="_blank" rel="noopener" href="https://nisi.nl/continuousdelivery/articles/maturity-model">NISI CD3M</a> 荷兰的一个基金会</li>
+<li><a target="_blank" rel="noopener" href="https://www.cloudbees.com/continuous-delivery/continuous-integration">Cloudbees</a></li>
+</ul>
+<p><img src="/img/cicdmodel_1.jpg" srcset="/img/loading.gif" lazyload alt="Andreas Rehn，Tobias Palmborg，Patrik Boström"></p>
+<p><img src="/img/cicdmodel_bekk.png" srcset="/img/loading.gif" lazyload alt="A MATURITY MODEL FOR CONTINUOUS DELIVERY"><br>看这些图，我觉得对dev来说最难搞定的是测试，其他部分都可以交给基础设施来做，<a target="_blank" rel="noopener" href="https://k6.io/docs/test-types/introduction/">各种自动化测试</a>确是需要dev写的，你觉得呢？</p>
+<p>devops讲究文化、流程、工具和平台，我们再来看看CI&#x2F;CD pileline有哪些轮子可以用。</p>
+<p>有实力的都上了CNCF的landscape： <a target="_blank" rel="noopener" href="https://landscape.cncf.io/card-mode?category=continuous-integration-delivery&grouping=category">App Definition and Development - Continuous Integration &amp; Delivery</a>  </p>
+<p>我个人倾向于将<a target="_blank" rel="noopener" href="https://www.one-tab.com/page/XVaE8S-wQzuVfMy430JQsA">这些轮子</a>按照盈利方式分类：</p>
+<ul>
+<li>云厂商战略必备：<a target="_blank" rel="noopener" href="https://aws.amazon.com/codepipeline/">AWS CodePileline</a>,<a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/services/devops/pipelines/">Azure Pipelines</a>,<a target="_blank" rel="noopener" href="https://cloud.google.com/build">Google Cloud Build</a>,<a target="_blank" rel="noopener" href="https://cn.aliyun.com/product/yunxiao/flow?from_alibabacloud=">阿里云云效</a>，<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/coding">腾讯云收购coding</a></li>
+<li>闭源商业公司 SaaS: circleci,<a target="_blank" rel="noopener" href="https://www.jetbrains.com/zh-cn/teamcity/ci-cd-guide/devops-ci-cd/">teamcity</a>,<a target="_blank" rel="noopener" href="https://www.cloudbees.com/products/continuous-delivery">cloudbees</a>…</li>
+<li>开源+cloud&#x2F;enterprise&#x2F;self-host 模式: <a target="_blank" rel="noopener" href="https://www.drone.io/">drone</a>,<a target="_blank" rel="noopener" href="https://www.travis-ci.com/product/">travis-ci</a>，<a target="_blank" rel="noopener" href="https://koderover.com/">zadig</a>, <a target="_blank" rel="noopener" href="https://convox.com/product/">convox</a>…</li>
+<li>完全开源: <a target="_blank" rel="noopener" href="https://jenkins-x.io/">Jenkins x</a>,<a target="_blank" rel="noopener" href="https://agola.io/">agola</a>,<a target="_blank" rel="noopener" href="https://dagger.io/">dagger</a>,<a target="_blank" rel="noopener" href="https://argoproj.github.io/argo-workflows/walk-through/steps/">Argo workflows</a>(基于k8s CRD 定义流程的方式确实很云原生，和他类似的还有<a target="_blank" rel="noopener" href="https://testkube.kubeshop.io/">testkube</a>利用CRD定义测试)</li>
+</ul>
+<p>有意思的是Jenkins X是<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/2018/04/jenkins-x-kubernetes">CloudBees发布的</a>，开源对商业公司来说更多时候是市场竞争的一种手段。</p>
+<p>对泥腿子来说你做的平台要想有人用前提就得开源，假设开源产品大火了对商业公司就产生了威胁，商业公司就会考虑开源一部分对冲一下风险，争夺一下话语权。</p>
+<p>另外你还知道哪些和CI&#x2F;CD有关的轮子不限于pileline类的，构建测试部署相关的都可以，欢迎分享。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">#云原生</a>
+      
+        <a href="/tags/%E5%86%85%E9%83%A8%E5%88%86%E4%BA%AB/">#内部分享</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CI/CD成熟度</div>
+      <div>https://bitseatech.cn/0708_CI_CD成熟度/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Lei.Zhang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 8, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/0715_%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%A0%87%E5%87%86%E5%8C%96%E5%8E%86%E5%8F%B2/" title="可观测性标准化历史">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">可观测性标准化历史</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/0702_%E4%BA%91%E6%9C%8D%E5%8A%A1%E6%88%90%E6%9C%AC%E6%B2%BB%E7%90%86%E6%88%90%E7%86%9F%E5%BA%A6/" title="云服务成本治理成熟度">
+                        <span class="hidden-mobile">云服务成本治理成熟度</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'threestoneblog',
+              apikey: '0zCJJ1D9WGSCRpYVwGwitQKjm8SsNIGPUSZIDfHnuGLqZ2x3PscYSxjrkDPep1KK'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

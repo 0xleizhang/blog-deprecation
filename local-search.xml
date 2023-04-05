@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>关于敏捷的讨论</title>
+    <link href="/%E5%85%B3%E4%BA%8E%E6%95%8F%E6%8D%B7%E7%9A%84%E8%AE%A8%E8%AE%BA/"/>
+    <url>/%E5%85%B3%E4%BA%8E%E6%95%8F%E6%8D%B7%E7%9A%84%E8%AE%A8%E8%AE%BA/</url>
+    
+    <content type="html"><![CDATA[<p>我在team slack thread的发言。</p><h1 id="关于估点"><a href="#关于估点" class="headerlink" title="关于估点"></a>关于估点</h1><p>我还是建议使用Jira的 Async Poker<br>具体执行过程是：</p><ol><li>PO&#x2F;TMP&#x2F;SM 根据每个sprint的goals起草Planning Draft，planning draft初步确定了Sprint的ticket范围，一般devs是不参与这个环节的。</li><li>之后start poker gamma，将链接发给所有人，devs异步估点</li><li>所有人估点结束后，开planning会议，过每个ticket，最小估点数和最大估点人数发言，讨论可能的风险，交流scope，之后确定ticket点数</li><li>planning过程中可以添加或删除ticket，确定sprint scope。</li></ol><p>一般来说估点过程中就将想做的卡assign给自己了。如果遇到卡片无人认领的情况，建议参考美区的经验，planning的时候将大部分卡片都assign到人，可以留一部分优先级不高的卡为TODO状态。</p><h1 id="关于建卡以及sprint过程中卡的变动"><a href="#关于建卡以及sprint过程中卡的变动" class="headerlink" title="关于建卡以及sprint过程中卡的变动"></a>关于建卡以及sprint过程中卡的变动</h1><p>子任务不能称之为新卡，如果工作内容是ticket的一部分就应该建任务卡而不是story卡片。<br>sprint过程中允许建新卡到sprint，但是需要做到两点<br>必要的解释这个ticket需要放在这个sprint做的原因。<br>新建的ticket要告知team所有人，一般是通过Jira+slack集成 推送消息到slack channel.</p><h1 id="关于接卡"><a href="#关于接卡" class="headerlink" title="关于接卡"></a>关于接卡</h1><p>建议优先接领域不熟悉的卡片，也就是说要交叉工作。<br>建议这样做的原因有一些优点<br>首先对个人来说有成长的机会<br>对team来说有利于codereview,<br>更有利于缩小team的knowledge gap.其实KT也是为了缩写team的knowledge gap。</p><h1 id="为什么要做知识分享以及为什么要估点"><a href="#为什么要做知识分享以及为什么要估点" class="headerlink" title="为什么要做知识分享以及为什么要估点"></a>为什么要做知识分享以及为什么要估点</h1><p>这个是我们一个PM告诉我的我认为很有道理分享给大家。<br>首先知识分享是为了缩小team的knowledge gap,让team每个成员对work scope的知识都具有相当的水平，那为什么要缩小team的knowledge gap呢？为了对team的效率有更好的预期，为了更好的planning。<br>我们切换一下管理者的视角，举一个例子，1份产品设计预估100个点，管理者需要知道这份产品什么时候能交付，那么他就需要知道这个team的工作效率。那么怎么能知道这个team的工作效率呢？<br>就是更准确估点，团队成员更稳定的输出。也就是说估点的目的不是为提高效率，而是摸清效率，通过多次sprint之后，团队的效率应该趋于稳定才是正常现象。<br>所以一般需要在sprint retro的时候通过Google sheet在线图表回顾一下上个Sprint的点数达成情况</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>管理</category>
+      
+      <category>敏捷</category>
+      
+      <category>工作</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>敏捷</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>webAssembly on server side 的应用场景</title>
+    <link href="/1221_webassembly%20on%20server%20side%20%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
+    <url>/1221_webassembly%20on%20server%20side%20%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
+    
+    <content type="html"><![CDATA[<p>webAssembly除了应用在前端和区块链领域，在云原生领域也有一些应用场景。</p><h1 id="webAssembly-with-k8s"><a href="#webAssembly-with-k8s" class="headerlink" title="webAssembly with k8s"></a>webAssembly with k8s</h1><p><strong>webAssembly runtime作为一种pod类型。</strong></p><p>基本原理是实现一个特殊的kubectl,然后将webAssembly的deployment selector到这个运行特殊kubectl的节点，这个节点有webAssembly runtime 能够运行webAssembly程序。</p><p>目前有 azure 在做这件事情，这是 Azure官方AKS如何开启并使用这个特性的指南： <a href="https://learn.microsoft.com/en-us/azure/aks/use-wasi-node-pools%E3%80%82">https://learn.microsoft.com/en-us/azure/aks/use-wasi-node-pools。</a></p><p>为什么做？</p><p>在 azure 开源版本 krustlet blog中提到：</p><blockquote><p>Our hunch is that WebAssembly is going to play a tremendous role as a cloud technology–well beyond the browser</p></blockquote><p>可见是信仰的力量。。。</p><p>有什么好处？</p><ul><li>比docker更小的包，更快的冷启动速度</li><li>相较于基于Linux内核的<a href="https://opencontainers.org/">OCI</a>运行在 arm 架构上还是挺麻烦的，但是WebAssembly就没这个问题</li></ul><p><img src="/img/webassembly-wasm-compiler-auxillary-function.png" alt="img"></p><h1 id="webAssembly-with-gateway"><a href="#webAssembly-with-gateway" class="headerlink" title="webAssembly with gateway"></a>webAssembly with gateway</h1><p>现代云原生网关都追求很强的扩展能力。</p><p>以下云原生网关都使用了webAssembly作为扩展能力的实现方式。</p><ol><li><p><a href="https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm/">https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm/</a></p></li><li><p><a href="https://megaease.com/zh/blog/2021/09/17/extend-backend-application-with-webassembly/">https://megaease.com/zh/blog/2021/09/17/extend-backend-application-with-webassembly/</a></p><p>  网红程序员左耳朵耗子的公司easegress产品。</p></li></ol><p>基本原理是将webAssembly嵌入到Gateway，用户使用其他语言编写规则逻辑脚本，编译成webAssembly,网关进行加载脚本执行，根据结果决定网关下一步动作。</p><p>以apiv3举个例子，假设apiv3也集成了webAssembly runtime，每个service请求都会加载service自定义的webAssembly代码执行。可以在webAssembly代码里实现比如鉴权的逻辑，如果鉴权失败return 401,网关就不需要把流量转发到service了。</p><p>还有一个easegress的<a href="https://megaease.com/zh/blog/2021/09/08/how-to-do-an-online-flash-sale-event-with-easegress-and-webassembly/">用来做秒杀的应用案例</a>，基本思路是一致的就是在调用目标service之前先调用webAssembly代码，主要要两个好处，1.执行环境是隔离的</p><ol start="2"><li>可以用多种语言编写script然后编译成webAssembly字节码。</li></ol><h1 id="with-Rule-Engine"><a href="#with-Rule-Engine" class="headerlink" title="with Rule Engine"></a>with Rule Engine</h1><p>还没看到有人这样用，只是我的一个想法，比如做资源风险巡检这个场景，不同的资源有不同的check规则，我们可以将运营中会变化的逻辑通过webAssembly的脚本实现，然后在应用中嵌入webAssembly runtime运行这段代码，将规则和应用程序分离。</p><h1 id="concepts"><a href="#concepts" class="headerlink" title="concepts"></a>concepts</h1><h3 id="webAssembly-runtimes-amp-WASI"><a href="#webAssembly-runtimes-amp-WASI" class="headerlink" title="webAssembly runtimes &amp; WASI"></a>webAssembly runtimes &amp; WASI</h3><p><img src="/img/04-02-portability-1-500x484.png" alt="One C source file being compiled to a single binary"></p><p>webassembly-runtimes 是webassembly代码的运行时,有很多实现：<a href="https://blog.logrocket.com/webassembly-runtimes-compared/">https://blog.logrocket.com/webassembly-runtimes-compared/</a></p><p>因为webassembly-runtimes是隔离的并不能直接syscall访问操作系统，WASI是和操作系统之间的API。</p><p>如果想玩一下的话，推荐：<a href="https://pkg.go.dev/github.com/bytecodealliance/wasmtime-go#section-readme">wasmtime</a>。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Tech</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>webassembly</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Kafka 与现代操作系统</title>
+    <link href="/1212_kafka%E4%B8%8EOS/"/>
+    <url>/1212_kafka%E4%B8%8EOS/</url>
+    
+    <content type="html"><![CDATA[<p>Kafka 能够有良好的 <a href="https://kafka.apache.org/documentation/#maximizingefficiency">Efficiency</a> （高吞吐量，低延迟），除了和它的架构设计有关还离不了现代操作系统的进步。可以说是站在巨人的肩膀上。</p><p>其中两个核心技术是：zero copy 和 multiplexing（IO多路复用）。分享两篇以操作系统演化的视角讲解这两项技术的文章,希望对你深入理解kafka有帮助。</p><p>操作系统-零拷贝技术演进</p><p><a href="https://colobu.com/2022/11/19/zero-copy-and-how-to-use-it-in-go/">https://colobu.com/2022/11/19/zero-copy-and-how-to-use-it-in-go/</a>  by 鸟窝 </p><p>以Java视角看零拷贝技术</p><p><a href="https://pdai.tech/md/java/io/java-io-nio-zerocopy.html">https://pdai.tech/md/java/io/java-io-nio-zerocopy.html</a> </p><p>操作系统-网络 IO 演变过程</p><p><a href="https://zhuanlan.zhihu.com/p/353692786">https://zhuanlan.zhihu.com/p/353692786</a>  by 腾讯技术工程</p><p>因为现在kafka并不支持SSL_sendfile，所以当broker开启 SSL加密，将享受不到sendfile带来的收益，因为必定要copy 数据到用户空间进行SSL加密。</p><p>另外在写 log.index 文件的时候仍然用到的是mmap技术。</p><p>sendfile应该是用在consumer过程中，写append日志的时候不确定有没有用到，文档<a href="https://kafka.apache.org/documentation/#persistence">4.2 Persistence</a>没有明显提到，有兴趣的可以扒拉一下源码。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Tech</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kafka</tag>
+      
+      <tag>操作系统</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>go map 为什么这么设计 背后的底层逻辑</title>
+    <link href="/1202_go%20map%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1%20%E8%83%8C%E5%90%8E%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%8E%9F%E5%9B%A0/"/>
+    <url>/1202_go%20map%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1%20%E8%83%8C%E5%90%8E%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%8E%9F%E5%9B%A0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="go-map-for-循环为什么是无序的？"><a href="#go-map-for-循环为什么是无序的？" class="headerlink" title="go map for 循环为什么是无序的？"></a><a href="https://qcrao91.gitbook.io/go/map/map-zhong-de-key-wei-shi-mo-shi-wu-xu-de">go map for 循环为什么是无序的？</a></h2><p>下面的示例代码，每次输出的结果大概率是不一样的。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestDemo</span><span class="hljs-params">(t *testing.T)</span></span> &#123;<br><br>m := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-type">int32</span>]<span class="hljs-type">string</span>)<br>m[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;a&quot;</span><br>m[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;b&quot;</span><br>m[<span class="hljs-number">2</span>] = <span class="hljs-string">&quot;c&quot;</span><br>m[<span class="hljs-number">3</span>] = <span class="hljs-string">&quot;d&quot;</span><br>m[<span class="hljs-number">4</span>] = <span class="hljs-string">&quot;e&quot;</span><br><br><span class="hljs-keyword">for</span> k, v := <span class="hljs-keyword">range</span> m &#123;<br>fmt.Printf(<span class="hljs-string">&quot;K: %d, V: %s \n&quot;</span>, k, v)<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>博主不会告诉你的是，这里面深层次的原因是：<a href="https://qiangmzsx.github.io/Software-Engineering-at-Google/#/zh-cn/Chapter-1_What_Is_Software_Engineering/Chapter-1_What_Is_Software_Engineering?id=hyrums-law-%E6%B5%B7%E5%8B%92%E5%A7%86%E5%AE%9A%E5%BE%8B">Hyrum’s Law 海勒姆定律</a>。<br>给大忙人的一句话概括解释是：你暴露什么API无所谓，只要你的实现是可探查的，别人就会依赖你实现而不是接口<br>这里map的语义就是无序的 但是之前的版本在某些情况下 map是有序的，开发人员就会依赖这个，面试官就会考这个，为了打破这一点，map在实现的时候，通过随机起始key，来达到无序。</p><h1 id="go-map-bucket桶的size为什么是8？"><a href="#go-map-bucket桶的size为什么是8？" class="headerlink" title="## go map bucket桶的size为什么是8？"></a>## go map bucket桶的size为什么是8？</h1><p>golang 中的 <code>map</code> 底层实现由 <code>hmap</code>，维护着若干个 <code>bucket</code> 数组，通常每个 <code>bucket</code> 保存着 8 组 kv 对，如果超过 8 个 (发生 hash 冲突时)，会在 <code>extra</code> 字段结构体中的 <code>overflow</code> ，使用链地址法一直扩展下去。<br>这个和java hashmap linkarray超过8个会树化的原因是一样的。<br>可以参考java hashmap的注释。<br><a href="https://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java">https://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java</a><br>从中可以看到这里深层次的原因是：<a href="http://en.wikipedia.org/wiki/Poisson_distribution">泊松分布</a>。<br>我粗浅的理解：这是一个统计学上的概念，也就是说大多数情况hash 冲突超过8次的概率很低了。当然在go里面是key的前8个bits冲突<br>java hashmap中给出的数据</p><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">* </span>0:    0.60653066<br><span class="hljs-bullet">* </span>1:    0.30326533<br><span class="hljs-bullet">* </span>2:    0.07581633<br><span class="hljs-bullet">* </span>3:    0.01263606<br><span class="hljs-bullet">* </span>4:    0.00157952<br><span class="hljs-bullet">* </span>5:    0.00015795<br><span class="hljs-bullet">* </span>6:    0.00001316<br><span class="hljs-bullet">* </span>7:    0.00000094<br><span class="hljs-bullet">* </span>8:    0.00000006<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Go</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Go</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>云原生12要素第九条与Kafka</title>
+    <link href="/1111-%E4%BA%91%E5%8E%9F%E7%94%9F12%E8%A6%81%E7%B4%A0%E7%AC%AC%E4%B9%9D%E6%9D%A1%E4%B8%8EKafka/"/>
+    <url>/1111-%E4%BA%91%E5%8E%9F%E7%94%9F12%E8%A6%81%E7%B4%A0%E7%AC%AC%E4%B9%9D%E6%9D%A1%E4%B8%8EKafka/</url>
+    
+    <content type="html"><![CDATA[<p>第九条 Disposability <a href="https://12factor.net/disposability">https://12factor.net/disposability</a></p><p>Maximize robustness with fast startup and graceful shutdown</p><p>高度抽象的知识是有害的，这条规则可以拆开三句话来理解。</p><ol><li>进程应该极力追求最小的启动时间</li><li>进程应该响应中止信号(SIGTERM)优雅退出</li><li>进程应该能够在被强杀（SIGKILL）是保持健壮性，比如业务数据一致</li><li>进程异常退出未做处理等同于被强杀<ol><li>go 例子 panic 未recover</li><li>java 例子 未捕获的异常同时也没配置JVM shutdown hook</li></ol></li></ol><p>这里的背景知识：</p><ul><li><p>是程序是运行在云基础设施的可以理解是k8s,一个pod可能随时因为底层的原因被kill掉，然后在新的node上重建，控制器是保证了replication数量，整体是可用的，但是单个pod是随时生生死死。</p></li><li><p><a href="https://en.wikipedia.org/wiki/Signal_(IPC)#SIGTERM">信号量 WIKI</a> SIGTERM进程能响应；SIGKILL进程无法响应操作 我们熟悉的 <code>kill -9</code></p></li><li><p>一般的stop一个service的过程是: 先发送一个SIGTERM信号<code>kill -15</code> 如果超过n秒进程仍没有退出再<code>kill -9 pid</code></p></li></ul><p>现在我们重点来看，如果程序不响应中止信号直接被强杀，Kafka会有什么问题？</p><p>我们假设Kafka cluster是高可用的，version&#x3D;2.8.0 Kraft未启用,分别看producer和consumer的情况</p><h2 id="producer"><a href="#producer" class="headerlink" title="producer"></a>producer</h2><p>我们知道Kafka client SDK producer 有两种发送方式：同步发送消息，异步发送消息。当前我们的代码库几乎都是使用的是异步发送方式。</p><p>和producer相关的参数很多，现在我们只看和我们这个话题最相关的几个。</p><p><code>batch.size</code> 当多个消息被发送到同一个分区时，生产者会把它们放在一个批次，这个参数指定一个批次可以使用的内存大小</p><p><code>linger.ms</code> 该参数指定生产者在发送之前等待更多消息加入批次的时间</p><p>KafkaProducer会在<code>linger.ms</code>达到上限或<code>batch.size</code>填满时批次把消息发送出去</p><p><code>receive.buffer.bytes</code> 和<code>send.buffer.bytes</code> 该参数分别指定TCP socket接受和发送数据包的缓冲区大小，如果设为-1，代表使用操作系统默认值。</p><p>由上我们可知，producer是存在buffer的，sdk层面和操作系统层面，如果进程被强杀，producer来不及flush，就会出现消息丢失。如果消息丢失是不可容忍的对业务一致性影响很大，我们就得想办法提高robustness。</p><p>还有一种情况在producer失败的时候可能因为强杀而来不及重试或处理，也会丢失消息。涉及到的参数：</p><p><code>acks</code> 表示有多少个分区副本收到消息，生产者才认为消息写入成功</p><p><code>retries</code> 生产者收到服务器的错误 又可能是临时性的错误，在这种情况下生产者可以重发消息的次数。通过<code>retry.backoff.ms</code>参数控制重试间隔</p><h1 id="consumer"><a href="#consumer" class="headerlink" title="consumer"></a>consumer</h1><p>consumer提交偏移量的方式有：自动提交，提交当前偏移量，异步提交，同步和异步组合提交，提交特定的偏移量。我们的代码库几乎都是使用自动提交方式。consumer的情况会更复杂，我们假设不发生reblance（再均衡）的情况，只讨论自动提交的场景。</p><p>自动提交涉及到的参数：</p><p><code>enable.auto.commit</code> 为true开启</p><p><code>auto.commit.interval.ms</code> 提交时间间隔默认5s</p><p>由上我们可以看到，如果消费过程中被强杀还来不及commit offset 当当前分区分配给其他consumer或者这个consumer上线继续consumer 必然会出现消息重复消费的情况。</p><p>多数情况重复消费是很难避免的，整个系统cluster+consumer 要保证at-least-once（至少一次）还比较容易，保证exactly-once（恰好一次）比较难。所以程序员来说尽量要把event和event 消费的过程设计成幂等的。</p><p>举个例子：</p><p>事件</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-title class_">Event_Good</span> <span class="hljs-punctuation">&#123;</span><br>  oldValue :<span class="hljs-number">2</span><br><span class="hljs-symbol">  newValue:</span> <span class="hljs-number">4</span><br><span class="hljs-punctuation">&#125;</span><br><br><span class="hljs-title class_">Event_Bad</span> <span class="hljs-punctuation">&#123;</span><br><span class="hljs-symbol">  Value_Change:</span> <span class="hljs-number">2</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p>前者event可以幂等消费，后者则不行。</p><p>消费过程：</p><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">update demo <span class="hljs-keyword">set</span> <span class="hljs-keyword">data</span> = <span class="hljs-keyword">data</span> + <span class="hljs-number">1</span> <span class="hljs-comment">//bad </span><br><br>update demo <span class="hljs-keyword">set</span> <span class="hljs-keyword">data</span> = new_date <span class="hljs-comment">//good</span><br></code></pre></td></tr></table></figure><p>ok,就聊到这里，希望对大家打码的时候有帮助。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>go</tag>
+      
+      <tag>kafka</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>实现结构体方法还是指针方法</title>
+    <link href="/1108_%E7%BB%93%E6%9E%84%E4%BD%93%E6%96%B9%E6%B3%95%E5%92%8C%E6%8C%87%E9%92%88%E6%96%B9%E6%B3%95%E5%A6%82%E4%BD%95%E9%80%89/"/>
+    <url>/1108_%E7%BB%93%E6%9E%84%E4%BD%93%E6%96%B9%E6%B3%95%E5%92%8C%E6%8C%87%E9%92%88%E6%96%B9%E6%B3%95%E5%A6%82%E4%BD%95%E9%80%89/</url>
+    
+    <content type="html"><![CDATA[<p>我看到代码库里有这两种风格的代码，研究了一下区别，自问自答记录一下学习分享给大家</p><p>第一种 实现结构体方法</p><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-keyword">func</span> <span class="hljs-params">(a XXXImpl)</span> <span class="hljs-title function_">CreateItem</span><span class="hljs-params">(ctx context.Context)</span> <span class="hljs-params">(int64, error)</span> &#123;<br>&#125;<br></code></pre></td></tr></table></figure><p>第二种 实现指针方法</p><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-keyword">func</span> <span class="hljs-params">(a *XXXImpl)</span> <span class="hljs-title function_">CreateItem</span><span class="hljs-params">(ctx context.Context)</span> <span class="hljs-params">(int64, error)</span> &#123;<br>&#125;<br></code></pre></td></tr></table></figure><p>大家可以跑一下这个测试用例体会一下区别</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs stylus">package method<br><br>import <span class="hljs-string">&quot;testing&quot;</span><br><br>type person struct &#123;<br>token string<br>&#125;<br><br>func (<span class="hljs-selector-tag">p</span> person) <span class="hljs-built_in">set_token</span>(newvalue string) &#123;<br><span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.token</span> = newvalue<br>&#125;<br><br>func (<span class="hljs-selector-tag">p</span> *person) <span class="hljs-built_in">set_token_2</span>(newvalue string) &#123;<br><span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.token</span> = newvalue<br>&#125;<br><br>func <span class="hljs-built_in">TestCallMeth</span>(t *testing.T) &#123;<br><span class="hljs-selector-tag">p</span> := person&#123;<span class="hljs-string">&quot;akka&quot;</span>&#125;<br><span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.set_token</span>(<span class="hljs-string">&quot;abc&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.token</span> + <span class="hljs-string">&quot;\n&quot;</span>) <span class="hljs-comment">// akka</span><br><span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.set_token_2</span>(<span class="hljs-string">&quot;opq&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.token</span> + <span class="hljs-string">&quot;\n&quot;</span>) <span class="hljs-comment">//opq</span><br><br>pt := &amp;person&#123;<span class="hljs-string">&quot;fff&quot;</span>&#125;<br>pt<span class="hljs-selector-class">.set_token</span>(<span class="hljs-string">&quot;abc&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.token</span> + <span class="hljs-string">&quot;\n&quot;</span>) <span class="hljs-comment">// opq</span><br>pt<span class="hljs-selector-class">.set_token_2</span>(<span class="hljs-string">&quot;opq&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-selector-tag">p</span><span class="hljs-selector-class">.token</span> + <span class="hljs-string">&quot;\n&quot;</span>) <span class="hljs-comment">//opq</span><br>&#125;<br><br></code></pre></td></tr></table></figure><p>总结一下区别就是：</p><p>方法是语法糖，第一个参数是receiver（结构体副本，指针副本）</p><p>如果是用指针作为接收者，那么变量（结构体对象）本身是可以修改的，因为指针传递的是变量的地址，因此变量内部的数据可以修改。</p><p>如果用值作为接收者，那么对象内部的数据无法修改，因为用值作为接收者，在调用方法时，传递进去的是对象的副本，即使修改也只是修改副本的值，原对象的数据不会发生改变。这种可以理解为对象在该方法内是只读的。</p><p>原理解读：<a href="https://www.bilibili.com/video/BV1Yt4y1Q7A5">https://www.bilibili.com/video/BV1Yt4y1Q7A5</a></p><p>那么问题来了，我们到底应该用哪种方式呢？</p><p>这里就要考虑到值复制成本的问题。更多可以参考<a href="https://gfw.go101.org/article/value-copy-cost.html">https://gfw.go101.org/article/value-copy-cost.html</a></p><p>摘要：</p><p>为了防止在函数传参和通道操作中因为<strong>值复制代价太高而造成的性能损失</strong>，我们应该避免使用大尺寸的结构体和数组类型做为参数类型和通道的元素类型，应该在这些场合下使用基类型为这样的大尺寸类型的指针类型。 另一方面，我们也要考虑到<strong>太多的指针将会增加垃圾回收的压力</strong>。所以到底应该使用大尺寸类型还是以大尺寸类型为基类型的指针类型做为参数类型或通道的元素类型<strong>取决于具体的应用场景</strong>。</p><p>所以最后并没有唯一的答案。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>go</tag>
+      
+      <tag>编程语言</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>通过go关键字run一个go routine的坑</title>
+    <link href="/1107_%E9%80%9A%E8%BF%87go%E5%85%B3%E9%94%AE%E5%AD%97run%E4%B8%80%E4%B8%AAgo%20routine%E7%9A%84%E5%9D%91/"/>
+    <url>/1107_%E9%80%9A%E8%BF%87go%E5%85%B3%E9%94%AE%E5%AD%97run%E4%B8%80%E4%B8%AAgo%20routine%E7%9A%84%E5%9D%91/</url>
+    
+    <content type="html"><![CDATA[<p>虽然go提供了 go func (){} 可以直接起一个go routine运行，但是实际并不推荐这样用好像，这块知识有点模糊，网上搜不到相关内容，谈下我理解，希望大佬指明道路<br>不推荐这么用的原因在于，如果程序收到信号优雅退出，这个go rontine可能还没运行完程序就退出了，同时也没法取消，可能导致业务数据不一致。</p><p>解决办法有三：<br>第一种 多数人会 errorgroup <a href="https://pkg.go.dev/golang.org/x/sync/errgroup%EF%BC%8C%E6%9C%89%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B1%80%E7%9A%84errorgroup">https://pkg.go.dev/golang.org/x/sync/errgroup，有一个全局的errorgroup</a> go变成了 g.GO 然后优雅退出的时候可以wait 也可以cancel</p><p>第二种就是通过channel，这好像更多用于一个go rountine的时候，相当于有一个全局的zero size chan, go func() {  chan&lt;- struct{}{}} 在优雅退出的时候 读完&lt;-chan 再退出</p><p>第三种 就是自己封装一个stopper cockroach有个例子<a href="https://github.com/cockroachdb/cockroach/blob/master/pkg/util/stop/stopper.go">https://github.com/cockroachdb/cockroach/blob/master/pkg/util/stop/stopper.go</a></p><p>或者说还有别的更 go style的方式？</p><p>参考文章：<a href="https://codewithyury.com/golang-wait-for-all-goroutines-to-finish/">https://codewithyury.com/golang-wait-for-all-goroutines-to-finish/</a><br><a href="https://juejin.cn/post/7068226142611701791">https://juejin.cn/post/7068226142611701791</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>go</tag>
+      
+      <tag>编程语言</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何写好go unit test</title>
+    <link href="/1107_%E5%A6%82%E4%BD%95%E5%86%99%E5%A5%BDgo%20unit%20test/"/>
+    <url>/1107_%E5%A6%82%E4%BD%95%E5%86%99%E5%A5%BDgo%20unit%20test/</url>
+    
+    <content type="html"><![CDATA[<p>之前没怎么写过go unit test 总结了一下如何写好unit test with golang 还有一些问题，希望大佬指正思路</p><p>1 测试代码是否和被测代码是否应该使用相同的包名？<br>目前compass 两种风格的代码都有？<br> 我的提问<a href="https://www.reddit.com/r/golang/comments/ynokeu/test_code_should_use_the_same_package_or_diff/">https://www.reddit.com/r/golang/comments/ynokeu/test_code_should_use_the_same_package_or_diff/</a><br>如果不用一个包名没法测试未导出方法，<br>坏:-1: 可能不够unit<br>好:+1: change 私有方法不会broke已有的测试用例</p><p>2 相同场景&#x2F;相同测试结果 使用 table driven tests<br> <a href="https://pkg.go.dev/testing#hdr-Subtests_and_Sub_benchmarks">https://pkg.go.dev/testing#hdr-Subtests_and_Sub_benchmarks</a><br>个人观点，同一个func的不同场景应该分开不同的测试方法,不然test也不够unit ,所有的场景掺合和一个测试方法里会很难修改<br>比如 success是一个测试方法。<br>失败场景有很多可以是一个table driver tests</p><p>3 判断单元测试是否好的标准之一是否有更高的代码覆盖率但又不需要完全追求</p><p>4 除了assert结果还需要AssertNumberOfCalls</p><p>5 模式: create test function name&#x2F;description &#x3D;&gt;mock&#x3D;&gt; call &#x3D;&gt; assert<br> description&#x2F;given is a term coming from the behavior-driven design where human-readable “user stories” are used to describe your expectations</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>go</tag>
+      
+      <tag>编程语言</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>吃灰的go电子书 赠予有缘人</title>
+    <link href="/1104_%E5%90%83%E7%81%B0golang%E7%94%B5%E5%AD%90%E4%B9%A6%20%E8%B5%A0%E4%BA%88%E6%9C%89%E7%BC%98%E4%BA%BA/"/>
+    <url>/1104_%E5%90%83%E7%81%B0golang%E7%94%B5%E5%AD%90%E4%B9%A6%20%E8%B5%A0%E4%BA%88%E6%9C%89%E7%BC%98%E4%BA%BA/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://go.dev/tour/welcome/1">https://go.dev/tour/welcome/1</a> 谁说电子书一定要是书 五分钟快速入门 5min&#x2F;day?</p><p><a href="https://gopl-zh.github.io/">https://gopl-zh.github.io/</a> 《The Go Programming Language》 每个语言都有的这么一本教科书</p><p><a href="https://bingohuang.gitbooks.io/effective-go-zh-en/content/">https://bingohuang.gitbooks.io/effective-go-zh-en/content/</a> 《Effective Go》中英双语版</p><p><a href="https://gfw.go101.org/article/101.html">https://gfw.go101.org/article/101.html</a> 《Go语言101》🌟 🌟 🌟  追根溯源的思路很符合个人口味</p><p><a href="https://chai2010.cn/advanced-go-programming-book/">https://chai2010.cn/advanced-go-programming-book/</a> 《<a href="https://chai2010.cn/advanced-go-programming-book/#go%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8Badvanced-go-programming">Go语言高级编程(Advanced Go Programming)</a>》 柴大 曹大出品</p><hr><p><a href="https://golang.design/under-the-hood/">https://golang.design/under-the-hood/</a> 《Go 语言原本》 欧长坤出品 深入go逃不过的一些领域</p><p><a href="https://draveness.me/golang/">https://draveness.me/golang/</a> 《Go 语言设计与实现 》 网红博主draveness出品</p><p><a href="https://geektutu.com/post/high-performance-go.html">https://geektutu.com/post/high-performance-go.html</a> 《Go 语言高性能编程》 术业有专攻 by极客兔兔</p><p><a href="https://read.misakas.com/show/3770">https://read.misakas.com/show/3770</a> 《Go语言底层原理剖析》 卷啊！ by郑建勋</p><p><a href="https://item.jd.com/10060942857918.html">https://item.jd.com/10060942857918.html</a> 《深度探索Go语言》 🌟🌟 🌟  up主幼麟实验室 可以支持一波</p><p><a href="https://gocompiler.shizhz.me/">https://gocompiler.shizhz.me/</a> 《Golang 编译器代码浅析》 继续卷</p><p><a href="https://golang.design/go-questions/">https://golang.design/go-questions/</a> 《面试宝典》八股文 你冲不冲</p><hr><p>其他一些</p><p><a href="https://yourbasic.org/golang/">https://yourbasic.org/golang/</a></p><p><a href="https://golang2.eddycjy.com/">https://golang2.eddycjy.com/</a> 《Go 语言编程之旅》 网红博主 煎鱼出品</p><p><a href="https://books.halfrost.com/leetcode/">https://books.halfrost.com/leetcode/</a> 一边刷leetcode一遍学go</p><p><a href="https://github.com/unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md">https://github.com/unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md</a></p><p><a href="https://github.com/Allenxuxu/uber-go-guide">https://github.com/Allenxuxu/uber-go-guide</a></p><p><a href="https://github.com/Pungyeon/clean-go-article">https://github.com/Pungyeon/clean-go-article</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>go</tag>
+      
+      <tag>编程语言</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>云原生时代的那些Java项目</title>
+    <link href="/0901_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3%E7%9A%84%E9%82%A3%E4%BA%9BJava%E9%A1%B9%E7%9B%AE/"/>
+    <url>/0901_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3%E7%9A%84%E9%82%A3%E4%BA%9BJava%E9%A1%B9%E7%9B%AE/</url>
+    
+    <content type="html"><![CDATA[<p><a href="http://icyfenix.cn/tricks/2020/java-crisis/qcon.html">《Java老矣，尚能饭否》</a></p><h1 id="GraalVM"><a href="#GraalVM" class="headerlink" title="GraalVM"></a>GraalVM</h1><p><a href="http://icyfenix.cn/tricks/2020/graalvm/">《简介》</a></p><p><a href="https://www.bilibili.com/video/BV1dV411r7ZC">视频介绍</a></p><h1 id="Quarkus"><a href="#Quarkus" class="headerlink" title="Quarkus"></a>Quarkus</h1><p>官网：<a href="https://quarkus.io/">https://quarkus.io/</a></p><p>开发框架，更快的启动速度，更少的内存占用，二进制执行文件</p><h1 id="Spring-Native"><a href="#Spring-Native" class="headerlink" title="Spring Native"></a>Spring Native</h1><p>基于GraalVM <a href="https://www.graalvm.org/reference-manual/native-image/">native-image</a> compiler. 可以打包成native执行文件</p><p><a href="https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/">《简介》</a></p><h1 id="Spring-Fu"><a href="#Spring-Fu" class="headerlink" title="Spring Fu"></a>Spring Fu</h1><p>serverless， 解决Java启动慢 </p><p><a href="https://github.com/spring-projects-experimental/spring-fu">《简介》</a></p><h1 id="Spring-Cloud-Kubernetes"><a href="#Spring-Cloud-Kubernetes" class="headerlink" title="Spring Cloud Kubernetes"></a>Spring Cloud Kubernetes</h1><p>spring 项目和k8s的集成</p><p><a href="https://spring.io/projects/spring-cloud-kubernetes#overview">《简介》</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>后端编程语言对比(v1)</title>
+    <link href="/1007_Java%20vs%20Golang%20vs%20Python%20vs%20Rust%20vs%20WebAssembly/"/>
+    <url>/1007_Java%20vs%20Golang%20vs%20Python%20vs%20Rust%20vs%20WebAssembly/</url>
+    
+    <content type="html"><![CDATA[<p>Java vs Golang vs Node.js vs Python vs Rust </p><p>以上server-side编程语言及技术的市场领域及现状</p><h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><p>老牌，成熟，全家桶解决方案，有历史包袱</p><p>业务负责大型项目还是会用</p><p>码农多，很卷。</p><p>总能找到Java工作，高薪要卷</p><p>云原生时代落下风，后面graalVM有很大可能一扫颓势</p><p>建议：学好Java维持基本盘</p><h1 id="Golang"><a href="#Golang" class="headerlink" title="Golang"></a>Golang</h1><p>Cloud-native ，网络中间件开发</p><p>需要高性能的restful server首选</p><p>抢了一部分java的市场</p><p>上手简单</p><p>建议：base java的要入门能实现基本的restful server， all in golang的不需要看java的东西</p><h1 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h1><p>Fullstack 首选</p><p>startup公司喜爱</p><p>建议：入门能实现基本的功能</p><h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p>Data engineer 必备</p><p>AI 开发 必备</p><p>devops开发 测试开发 不追求性能的上层应用</p><p>入门简单</p><p>建议：程序员必学</p><h1 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h1><p>系统级开发，后端的后端</p><p>区块链</p><p>webassembly亲和</p><p>学习曲线高</p><p>安全性高，开发效率低</p><p>吃C&#x2F;++ 的市场，解决C&#x2F;++内存管理的痛点</p><p>建议：all in web3 必学</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>eBPF powered是不是service mesh的未来</title>
+    <link href="/0810_eBPF%20powered%E6%98%AF%E4%B8%8D%E6%98%AFservice%20mesh%E7%9A%84%E6%9C%AA%E6%9D%A5/"/>
+    <url>/0810_eBPF%20powered%E6%98%AF%E4%B8%8D%E6%98%AFservice%20mesh%E7%9A%84%E6%9C%AA%E6%9D%A5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="屁股决定脑袋？"><a href="#屁股决定脑袋？" class="headerlink" title="屁股决定脑袋？"></a>屁股决定脑袋？</h1><p>两篇博文</p><p><a href="https://buoyant.io/blog/ebpf-sidecars-and-the-future-of-the-service-mesh">eBPF, sidecars, and the future of the service mesh</a> by buoyant公司 </p><p>​service mesh产品 linkerd 背后的公司：文章总结起来就是说用eBPF做service mesh现在不行</p><p><a href="https://isovalent.com/blog/post/2021-12-08-ebpf-servicemesh/">How eBPF will solve Service Mesh – Goodbye Sidecars</a> by isovalent公司</p><p>​开源产品Cilium背后的公司，文章自然是吹用eBPF的好处</p><p>另外Istio 也有一个项目叫<a href="https://istio.io/latest/blog/2022/merbridge/">Merbridge</a> 使用eBPF替换sidebar基于iptables的service mesh.</p><p>so eBPF powered会不会是service mesh的未来？</p><h1 id="啥是eBPF-？"><a href="#啥是eBPF-？" class="headerlink" title="啥是eBPF ？"></a>啥是eBPF ？</h1><blockquote><p>eBPF is a framework that allows users to load and run custom programs within the kernel of the operating system. That means it can extend or even modify the way the kernel behaves. In this report, you will learn about the ability to dynamically change the behavior of the kernel can be tremendously useful.</p></blockquote><p><a href="https://www.youtube.com/watch?v=f-oTe-dmfyI&t=507s">有人将eBPF之于Linux比作javascript之于web</a>，<a href="https://ebpf.io/">ebpf.io</a> 这是它的官网。</p><p>可以粗略的理解为：它是Kernel 3.18之后提供的一个feature，允许用户自定义eBPF程序经过LLVM编译成字节码，装载到内核态的VM执行，并且支持JIT运行时编译成机器码。最大的好处就是避免了copy，性能更高效。</p><p><img src="/img/ebpf.png" alt="ebpf"></p><p>图片来源：<a href="https://www.ebpf.top/post/ebpf_and_go/">_link</a></p><h1 id="buoyant公司：我好难！"><a href="#buoyant公司：我好难！" class="headerlink" title="buoyant公司：我好难！"></a>buoyant公司：我好难！</h1><p>我感觉这个创业公司的经历挺传奇的给大家梳理一下关键吃瓜事件</p><p><strong>2016 年 2 月</strong>发布 Linkerd   0.1.0 版本，前Twitter 工程师<a href="https://twitter.com/wm"> William Morgan </a> 基于twitter的<a href="https://twitter.github.io/finagle/">finagle</a> scala写的</p><p><strong>2016年9月</strong> buoyant首次在SF Microservices上提出service mesh概念</p><p><strong>2016年10月</strong> Lyft公司开源Envoy</p><p>Google、IBM和Lyft 联合<strong>2017年</strong>推出Istio 并在<strong>2018年7月</strong>发布了1.0版本。</p><p>​Envoy忠实的帮Istio做好数据平面的事情</p><p>​被称为service mesh2.0时代采用数据平面和控制平面架构</p><p>​把Linkerd干的节节败退，创始人发推抱怨service mesh领域大家应该专注在产品研发而不是市场营销。</p><p>Buoyant破釜沉舟推出Conduit于<strong>2017年12月</strong>发布</p><p>​采用数据平面+控制平面的架构，数据平面用Rust开发，控制平面用Go开发</p><p><strong>2018年7月</strong> <a href="https://linkerd.io/2018/07/06/conduit-0-5-and-the-future/">conduit 改名 linkerd2.0</a></p><p>从这段历史来看Istio差点革了linkerd的命，现在又说要用eBPF代替sidebar，buoyant：又开始了，没完了</p><p><img src="/img/noend.gif" alt="没完了"></p><p>参考资料：blog <a href="https://skyao.io/publication/">service mesh 年度总结</a></p><h1 id="保守派还是激进派？"><a href="#保守派还是激进派？" class="headerlink" title="保守派还是激进派？"></a>保守派还是激进派？</h1><p>新东西出现的时候总有人说，这也不行那也不行，但往往我们会犯一个错误：只能静态的看待问题，却忘了新事物会发展成长，而且其成长速度可能还是指数型</p><p>docker刚出来的时候还<a href="http://www.ifuun.com/a2017552068121/">有人嫌他费电</a>。</p><p>m1刚出来的时候有人嫌他兼容性不好，我就听了这种人的鬼话买了intel，真JB后悔。</p><p><a href="https://doesitarm.com/">现在的兼容性</a></p><p><img src="/img/image-20220812154336005.png" alt="image-20220812154336005"></p><p>所以你是保守派还是激进派？</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>service mesh</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>程序员的分工</title>
+    <link href="/0727_%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%88%86%E5%B7%A5/"/>
+    <url>/0727_%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%88%86%E5%B7%A5/</url>
+    
+    <content type="html"><![CDATA[<p>在上一篇<a href="https://bitseatech.cn/20220722_Dapr%E8%83%BD%E5%90%A6%E6%94%B9%E5%8F%98%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/#%E5%85%B3%E6%B3%A8%E7%82%B9%E5%88%86%E7%A6%BB%E5%AF%BC%E8%87%B4%E5%88%86%E5%B7%A5%E6%98%AF%E4%B8%8D%E5%8F%98%E7%9A%84%E8%B6%8B%E5%8A%BF">《Dapr能否改变云原生时代使用中间件的方式》</a>一文中提到了程序员的分工，具体有哪些呢？这篇文章就来试图梳理一下。</p><h1 id="理解这些有哪些好处？"><a href="#理解这些有哪些好处？" class="headerlink" title="理解这些有哪些好处？"></a>理解这些有哪些好处？</h1><ul><li>对初入这行的人有一个landscape，能够一览全局</li><li>划分清楚领域有助于我们认清现实，人不可能精通所有，最好能专精于1-2个领域，不要用自己的业余和别人的专业竞争。</li></ul><p>我暂时想到按照三个维度划分，这三个维度彼此存在交叉。每个维度的不同细分都有特定的领域知识，转领域没办法一蹴而就的。</p><p>不以语言划分，虽然编程语言是程序员最大的标签，但是编程语言更应该是工具。</p><h1 id="按照层级（产业上下游）划分"><a href="#按照层级（产业上下游）划分" class="headerlink" title="按照层级（产业上下游）划分"></a>按照层级（产业上下游）划分</h1><ul><li>应用层 ： web开发，商业应用</li><li>基础开发框架 ： Spring，Flask</li><li>基础软件<ul><li>开发数据库的：mysql,postgres</li><li>开发中间件的：redis, Kafka</li><li>开发平台的：k8s, istio</li><li>开发基础工具的：git，IDEA，VSCode</li><li>工业基础软件： adobe，Maya，CAD</li></ul></li><li>底层软件<ul><li>开发内核的：Linux kernel</li><li>开发操作系统的：Linux&#x2F;GUN</li><li>编程语言&#x2F;虚拟机&#x2F;编译器：golang，JVM，kotlin，LLVM</li><li>开发浏览器的：Chrome</li></ul></li></ul><h1 id="按照行业划分"><a href="#按照行业划分" class="headerlink" title="按照行业划分"></a>按照行业划分</h1><ul><li><strong>互联网web</strong></li><li><strong>区块链</strong></li><li>云计算：云平台</li><li>游戏开发： 行业内又有细分，开发引擎的和前端开发、后端开发</li><li>硬件开发：驱动开发，嵌入式开发</li><li>物联网</li><li>工厂生产制造系统</li><li>…</li></ul><h1 id="按照专业知识领域划分"><a href="#按照专业知识领域划分" class="headerlink" title="按照专业知识领域划分"></a>按照专业知识领域划分</h1><ul><li>网络工程师</li><li>前端&#x2F;后端&#x2F;移动（ios&#x2F;Android&#x2F;跨平台)</li><li>运维&#x2F;DBA&#x2F;增长工程师</li><li>算法&#x2F;AI&#x2F;大数据&#x2F;数据分析</li><li>音视频领域</li><li>电商领域</li><li>IM领域</li><li>CRM&#x2F;SPA 领域</li><li>GIS</li><li>CI&#x2F;CD&#x2F;Service Mesh&#x2F;Monitoring&#x2F;…</li><li>…</li></ul><p>这里我们没有按照头衔分工来划分例如架构师，总监。</p><p>选择一个行业，要看这个行业是否仍然是朝阳产业，比如现在互联网相较于传统软件行业肯定更有发展空间。</p><p>选择一个领域，需要明白这个领域依附的产业是什么，是否仍然是主流，并且考虑这个领域知识是否足够深，足够深往往才会有创新空间。</p><p>层级选择上要看自己的兴趣， 有人喜欢开发前端，有人则喜欢偏底层的软件。</p><p>最好能够成为 π 字型人才而不仅仅是T型了。也就是说要专精两个领域并且对其他领域有通识。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>程序员</tag>
+      
+      <tag>landscape</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Dapr能否改变云原生时代使用中间件的方式？</title>
+    <link href="/0722_Dapr%E8%83%BD%E5%90%A6%E6%94%B9%E5%8F%98%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/"/>
+    <url>/0722_Dapr%E8%83%BD%E5%90%A6%E6%94%B9%E5%8F%98%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Dapr的出现是云平台市场竞争的结果"><a href="#Dapr的出现是云平台市场竞争的结果" class="headerlink" title="Dapr的出现是云平台市场竞争的结果"></a>Dapr的出现是云平台市场竞争的结果</h1><p>AWS在公有云领域入日中天，Google又有云原生战略三驾马车：k8s,istio,gRPC, 当初Azure作为挑战者想要打开市场他能怎么做？</p><p>可以看下面这个图，2018年微软的人自然想到了往应用层发展：构想一个与平台无关的应用程序模型,使开发人员能独立于特定平台设计出分布式应用程序的拓扑。详细背景故事可以看这本<a href="https://skyao.io/publication/202111-learning-dapr/#:~:text=%E3%80%82%E5%BD%93%E6%97%B6%EF%BC%8C%E6%88%91%E4%BB%AC%E6%AD%A3%E5%9C%A8%E6%9E%84%E6%83%B3%E4%B8%80%E4%B8%AA%E4%B8%8E%E5%B9%B3%E5%8F%B0%E6%97%A0%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%A8%A1%E5%9E%8B%EF%BC%8C%E4%BD%BF%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E8%83%BD%E7%8B%AC%E7%AB%8B%E4%BA%8E%E7%89%B9%E5%AE%9A%E5%B9%B3%E5%8F%B0%E8%AE%BE%E8%AE%A1%E5%87%BA%E5%88%86%E5%B8%83%E5%BC%8F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%8B%93%E6%89%91">Dapr作者出的书</a>。</p><p>同样作为挑战者的阿里云也是项目主要参与者</p><p><img src="/./img/dapr.png" alt="dapr"></p><h1 id="Dapr-带来的改变一瞥"><a href="#Dapr-带来的改变一瞥" class="headerlink" title="Dapr 带来的改变一瞥"></a>Dapr 带来的改变一瞥</h1><p>三大基础软件领域：操作系统，中间件，数据库。操作系统被容器抽象掉了，目前我们使用中间件的时候还得配合着client-sdk。</p><p>以存储一个key-value为例，开发仅仅是想保存个值而已，换一种存储或换一种开发语言，开发都得重新熟悉对应语言的的client sdk API.</p><p>例如：开始以redis存储，之后换成dynamodb存储，开发得重新熟悉dynamodb的client sdk.</p><p>又例如原来一部分是java开发另一部分用python开发,仍然保持使用redis存储，开发人员得同时熟悉两门语言的redis client-sdk使用。</p><p>现在有了Dapr就不必了，它在中间做了一层API抽象叫 <a href="https://docs.dapr.io/reference/components-reference/supported-state-stores/">State stores</a>,这样你就不必关系存储时候是redis,mysql还是其他了，应用程序存储的时候只需要向Dapr的sidebar pod发送一个HTTP或者gRPC请求，例如</p><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pf">curl -X POST -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> -d &#x27;[&#123; <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;Bruce Wayne&quot;</span>&#125;]&#x27; http://localhost:<span class="hljs-number">3500</span>/v1.<span class="hljs-number">0</span>/<span class="hljs-keyword">state</span>/<span class="hljs-keyword">state</span>StoreName<br><span class="hljs-comment"># 向stateStoreName中存储一个kv， 3500是Dapr的sidebar HTTP协议监听端口，/v1.0/state/是固定的协议路径</span><br></code></pre></td></tr></table></figure><p>类似state stores的这些能力Dapr中称为<a href="https://docs.dapr.io/developing-applications/building-blocks/">Building blocks</a>，有点对应12-Factor中的<a href="https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/definition#backing-services">backing-services</a>的感觉</p><p>总之Dapr(Distributed Application Runtime)降低了开发分布式系统应用程序的难度。</p><h1 id="关注点分离导致分工是不变的趋势"><a href="#关注点分离导致分工是不变的趋势" class="headerlink" title="关注点分离导致分工是不变的趋势"></a>关注点分离导致分工是不变的趋势</h1><p>起初大家都是程序员前面没有那么多title的，现在有了前端程序员，后端程序员，有搞操作系统的，有搞内核的，有搞编译器的，有搞虚拟机的。web领域的开发现在也有了进一步分离的趋势，云原生程序员与普通程序员。云原生程序员生产工具搞定背后的复杂性hold住所有非功能性需求。普通程序员不需要了解底层的复杂性只需要懂if else CRUD就OK了。</p><p>这种趋势对企业发展来说可能是好事情，假设以前需要雇佣2个高级程序员一共20块钱，现在只需要花5块钱雇佣一个初级程序员另外花10块钱到云厂商或自建的云平台。</p><p>但是马哲讲过，分工会提高效率但也是会导致人的异化。估计以后就再也没有人能full stack了</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>内部分享</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>可观测性标准化历史</title>
+    <link href="/0715_%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%A0%87%E5%87%86%E5%8C%96%E5%8E%86%E5%8F%B2/"/>
+    <url>/0715_%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%A0%87%E5%87%86%E5%8C%96%E5%8E%86%E5%8F%B2/</url>
+    
+    <content type="html"><![CDATA[<p>云原生吹水Ep.3 来看一下历史悠久、竞争异常激烈并且和dev密切相关的领域：可观测性（observability），但是这个话题太大，我们就只吹一点：云原生可观测标准化历史。先来看一下这些名词你认识几个？</p><ul><li>OpenTracing</li><li>OpenCensus</li><li>OpenTelemetry</li><li>OpenMetrics </li><li>OpenObservability</li></ul><p>都不认识扣1，认识3个及以上扣2，很长一段时间我都分不清他们，如果你能如数家珍绝对是云原生老司机了。</p><p>这里的很多知识点来源于<a href="http://icyfenix.cn/distribution/observability/tracing.html#%E8%BF%BD%E8%B8%AA%E8%A7%84%E8%8C%83%E5%8C%96">这个电子书</a>，我这里只是给大家做一下演绎性的总结，这个专栏写的很棒有兴趣可以追根溯源再去看一下专栏。</p><p>以下是我理解的时间线：</p><ol><li><p>APM和基础监控时代，没有标准。典型的如<a href="https://www.zabbix.com/">Zabbix</a>，现在的zabbix仍然宝刀未老在云原生可观测性领域仍占有一席之地。还有基于agent技术做APM性能监控的例如<a href="https://www.oneapm.com/">oneapm</a>。这个时候在营销上还不怎么谈observability</p></li><li><p><strong>2010年</strong><a href="https://research.google/pubs/pub36356/">Dapper论文</a>发布，dapper可以说是多数分布式系统链路追踪的祖师爷</p></li><li><p>后来就是tracing领域百花齐放，然后大家想着要不搞个标准化吧，于是<strong>2016年</strong> OpenTracing  released,大家可以在从<a href="https://opentracing.io/specification/organization/">这里</a>看到参与这个项目的有：Zipkin，LightStep，New Relic，DataDog，SkyWalking，Jaeger…</p></li><li><p>但是Google反对OpenTracing,<strong>2018年</strong>开源了OpenCensus，想把metrics,tracing放在一个规范里</p><blockquote><p>OpenTracing 规范公布后，几乎所有业界有名的追踪系统，譬如 Zipkin、Jaeger、SkyWalking 等都很快宣布支持 OpenTracing，但谁也没想到的是，Google 自己却在此时出来表示反对，并提出了与 OpenTracing 目标类似的 OpenCensus 规范，随后又得到了巨头 Microsoft 的支持和参与。OpenCensus 不仅涉及追踪，还把指标度量也纳入进来；内容上不仅涉及规范制定，还把数据采集的探针和收集器都一起以 SDK（目前支持五种语言）的形式提供出来。</p></blockquote></li></ol><p>​这里就值得大家思考一下，为什么要把logs,metrics,tracing放在一起，假如我们用大腿想一下应该是他们总是息息相关，这里推荐一个<a href="https://lib.jimmysong.io/opentelemetry-obervability/history/">电子书专栏文章</a>，解释了为什么要放在一起。</p><ol start="5"><li><p><strong>2019年末</strong> openTracing + openCenus&#x3D;<a href="https://opentelemetry.io/docs/concepts/what-is-opentelemetry/">OpenTelemetry</a> 两个项目合并了，新的项目是简称 <code>OTel</code>   </p><p>OpenTelemetry不仅仅是文件规范它等于 tools+API+SDK</p></li></ol><p>​现在如果你想学习可观测把精力focus在OpenTelemetry肯定没错了，现在可观测领域的厂商基本都在支持OTel,比如<a href="https://www.elastic.co/explore/devops-observability/2022-gartner-magic-quadrant-apm">Gartner魔力四象</a>限上领跑的我们用的<a href="https://docs.datadoghq.com/tracing/trace_collection/open_standards/#pagetitle">datadog</a>已经支持了.</p><p>​但是OTel现在logs部分还是<a href="https://opentelemetry.io/status/">draft状态</a>，<a href="https://www.elastic.co/what-is/elk-stack">elastic ELK </a>仍然是统治地位</p><p>稍微再一下谈另外两个：OpenMetrics，OpenObservability</p><p>OpenMetrics是prometheus将自己的实现做了标准化之后的产物，响应者寥寥，但是不影响在云原生领域metric老大哥的地位，可谓是事实上的标准，但是现在也要做<a href="https://opentelemetry.io/docs/reference/specification/metrics/sdk_exporters/prometheus/">接入OTel的工作</a>，所谓一流的企业制定标准，人家可以通过标准直接实现降维打击，类似的例子有K8S是怎样一步步制定自己的标准将Docker完全移除的，这又是另一个故事了。</p><p>prometheus作为这个领域的竞争者之一确切的说应该是prometheus生态（prometheus + alter manager + thanos+grafana)</p><p>OpenObservability其实并不存在这个项目，只是OpenMetrics在<a href="https://github.com/OpenObservability?type=source">GitHub</a>上的group name是这个，可见prometheus这帮人还是有的野心的。另外<a href="https://openobservability.io/">OpenObservability</a>还是一个技术播客的名字，这纯属就是蹭流量了。</p><p>可以说标准化之争大局已定，带来的影响就是更激烈的市场竞争，更全面的可观测解决方案。log+metrics+tracing成了一揽子方案。</p><p>做搜索起家的elastic ELK（log)成功之后又进军基于metric的<a href="https://www.elastic.co/observability">Monitoring领域</a></p><p>做tracing起家的Skywalking现在也做了Logging，Metrics，而且还要基于现在大火的eBPF做profiling</p><p>这个领域最终鹿死谁手，谁将逐鹿中原，谁会一家独大尚未可知。</p><p><img src="/img/gartner.png" alt="gartner"></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>内部分享</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>CI/CD成熟度</title>
+    <link href="/0708_CI_CD%E6%88%90%E7%86%9F%E5%BA%A6/"/>
+    <url>/0708_CI_CD%E6%88%90%E7%86%9F%E5%BA%A6/</url>
+    
+    <content type="html"><![CDATA[<p>云原生吹水Ep.2 来聊聊：你觉得现在所在的 team CI&#x2F;CD 建设的怎么样？欢迎大家用表情投票</p><p>1⃣️ 烂的一批，我要吐槽</p><p>2⃣️ 够用，还有很大的提升空间</p><p>3⃣️ 还行，没有多少地方能提升的了</p><p>4⃣️ 优秀，我要怒赞</p><p>为了评估我们的CI&#x2F;CD (Continuous Integration&#x2F;Continuous Delivery&#x2F;Continuous Deployment)水平 今天给大家介绍一个概念：CI&#x2F;CD成熟度模型（MATURITY MODEL）。这玩意可以用来指导我们进行CI&#x2F;CD建设。</p><p>首先这个模型不是由某个权威机构发布的，有知名公司发布的，也有阿猫阿狗发布的。基本思想都差不多，只是维度上有些差别。</p><p>格式上来说都是两个轴：一个轴是成熟程度，另外一个轴是engineering活动分类。</p><p>我认为比较好看的是这两个：</p><ul><li><a href="http://bekkopen.github.io/maturity-model/">bekkopen cd maturity-model</a>一家挪威公司</li><li><a href="https://mp.weixin.qq.com/s?__biz=MzUxNTEwNTg5Mg==&mid=2247488305&idx=1&sn=cf40ab3c34d3a997c8d9c7e7a890b4c6&chksm=f9bae63acecd6f2c5167c297e4a116c8f38bef7b62a8562fdb40434265e0be6eaccacab5dca7&token=594338237&lang=zh_CN#rd">Andreas Rehn，Tobias Palmborg，Patrik Boström版</a>。<a href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model/">原文</a></li></ul><p> 另外能search到的还有很多，可以参考</p><ul><li><a href="https://pages.awscloud.com/rs/112-TZM-766/images/A-Roadmap-to-Continuous-Delivery-Pipeline-Maturity-dev-whitepaper.pdf">AWS marketplace</a></li><li><a href="https://clarive.com/quick-check-your-continuous-delivery-maturity/">clarive</a>公司</li><li><a href="https://nisi.nl/continuousdelivery/articles/maturity-model">NISI CD3M</a> 荷兰的一个基金会</li><li><a href="https://www.cloudbees.com/continuous-delivery/continuous-integration">Cloudbees</a></li></ul><p><img src="/img/cicdmodel_1.jpg" alt="Andreas Rehn，Tobias Palmborg，Patrik Boström"></p><p><img src="/img/cicdmodel_bekk.png" alt="A MATURITY MODEL FOR CONTINUOUS DELIVERY"><br>看这些图，我觉得对dev来说最难搞定的是测试，其他部分都可以交给基础设施来做，<a href="https://k6.io/docs/test-types/introduction/">各种自动化测试</a>确是需要dev写的，你觉得呢？</p><p>devops讲究文化、流程、工具和平台，我们再来看看CI&#x2F;CD pileline有哪些轮子可以用。</p><p>有实力的都上了CNCF的landscape： <a href="https://landscape.cncf.io/card-mode?category=continuous-integration-delivery&grouping=category">App Definition and Development - Continuous Integration &amp; Delivery</a>  </p><p>我个人倾向于将<a href="https://www.one-tab.com/page/XVaE8S-wQzuVfMy430JQsA">这些轮子</a>按照盈利方式分类：</p><ul><li>云厂商战略必备：<a href="https://aws.amazon.com/codepipeline/">AWS CodePileline</a>,<a href="https://azure.microsoft.com/en-us/services/devops/pipelines/">Azure Pipelines</a>,<a href="https://cloud.google.com/build">Google Cloud Build</a>,<a href="https://cn.aliyun.com/product/yunxiao/flow?from_alibabacloud=">阿里云云效</a>，<a href="https://cloud.tencent.com/product/coding">腾讯云收购coding</a></li><li>闭源商业公司 SaaS: circleci,<a href="https://www.jetbrains.com/zh-cn/teamcity/ci-cd-guide/devops-ci-cd/">teamcity</a>,<a href="https://www.cloudbees.com/products/continuous-delivery">cloudbees</a>…</li><li>开源+cloud&#x2F;enterprise&#x2F;self-host 模式: <a href="https://www.drone.io/">drone</a>,<a href="https://www.travis-ci.com/product/">travis-ci</a>，<a href="https://koderover.com/">zadig</a>, <a href="https://convox.com/product/">convox</a>…</li><li>完全开源: <a href="https://jenkins-x.io/">Jenkins x</a>,<a href="https://agola.io/">agola</a>,<a href="https://dagger.io/">dagger</a>,<a href="https://argoproj.github.io/argo-workflows/walk-through/steps/">Argo workflows</a>(基于k8s CRD 定义流程的方式确实很云原生，和他类似的还有<a href="https://testkube.kubeshop.io/">testkube</a>利用CRD定义测试)</li></ul><p>有意思的是Jenkins X是<a href="https://www.infoq.cn/article/2018/04/jenkins-x-kubernetes">CloudBees发布的</a>，开源对商业公司来说更多时候是市场竞争的一种手段。</p><p>对泥腿子来说你做的平台要想有人用前提就得开源，假设开源产品大火了对商业公司就产生了威胁，商业公司就会考虑开源一部分对冲一下风险，争夺一下话语权。</p><p>另外你还知道哪些和CI&#x2F;CD有关的轮子不限于pileline类的，构建测试部署相关的都可以，欢迎分享。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>内部分享</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>云服务成本治理成熟度</title>
+    <link href="/0702_%E4%BA%91%E6%9C%8D%E5%8A%A1%E6%88%90%E6%9C%AC%E6%B2%BB%E7%90%86%E6%88%90%E7%86%9F%E5%BA%A6/"/>
+    <url>/0702_%E4%BA%91%E6%9C%8D%E5%8A%A1%E6%88%90%E6%9C%AC%E6%B2%BB%E7%90%86%E6%88%90%E7%86%9F%E5%BA%A6/</url>
+    
+    <content type="html"><![CDATA[<p>昨天和王凯huddle他提到现在这个时候团队都想着怎么省钱减少IT支出<br>既然应征了频主，应景拉一个话题 EP1：<strong>云服务怎么用更省钱？</strong><br>在抛我的观点之前先统计一下大家对成本的感觉，可以用reaction投票<br>:one: 成本是老板的事，从不关心成本就是干<br>:two: IT成本是运维的事，不应该开发关注<br>:three: 会有一些考虑但不经常关心，coding没多少和成本相关的东西<br>:four: 穷人思维（抠逼）驱动设计，啥都想到成本<br>:five: 我有特殊的省钱技巧</p><p>云服务的一大特点就是按量付费，但是前提时得正确的姿势使用，不然可能不能帮你省钱，还可能直接干破产，有兴趣的可以八卦一下这个案例<a href="https://zhuanlan.zhihu.com/p/358250097">《Milkie Way公司破产未遂事件》</a>，原视频找不到了，我记得好像是这个公司有创始人是Google出来的，事件在网上造成了一定的传播度，后来申诉通过Google把账单退了，要是普通人可没这么好运。</p><p>我觉得成本治理成熟度大概是分5步<br>熟悉云产品收费策略，收费方式，知道<br>能够选择适合自己业务场景的收费策略，会用<br>有成本治理工具，用好<br>低成本的产品&#x2F;架构设计<br>低成本编码思维灌注到每个团队成员中，组织文化层面</p><p>1 了解收费策略，收费方式<br>现在的收费策略真的太多了，按量付费，包年包月，按API使用量付费，固定带宽付费，固定流量付费，日峰值带宽计费，月95峰值带宽计费，四日峰值带宽计费，。。。。<br>稍微聊两个我认为特别创新有意思的收费方式大家感受一下<br><strong>四日峰值带宽计费</strong>：每5分钟取一个数值，每天288个值，取其最大值为 “日峰值“，第四日峰值表示在当月或者选择日期内的降序第4个“日峰值“带宽，如果选择天数小于4天，则表示最小日峰值带宽。<br>适用场景：每月带宽曲线会有1-2天突发的情况，例如618、双十一等活动当天。和95峰值思路类似剔除掉聊最高的流量峰值，如果平时流量水平一直很低就比较省钱聊。<br><a href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/burstable-performance-instances.html">突增型性能实例</a>：平时不繁忙的时候积分，再需要突破性能的时候消耗积分达到上限，适用于定时跑批的任务，比如购买4vcpu8G再没积分的情况下可能只能使用20%的容量，有积分的情况下能冲刺到全量。<br>更多一手知识来源官方文档<a href="https://aws.amazon.com/cn/pricing/">AWS</a>，<a href="https://www.datadoghq.com/pricing/">datadog</a></p><ol start="2"><li>选择适合自己业务场景的收费策略<br>举个例子，<a href="https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/storage-class-intro.html">S3的存储类型</a>是特别多的，多数默认用standard，考量一下你的业务真的需要是standard吗？比如导出上一年的账单备份，可能一两年内也不会load出来一次，就可以考虑用冷存储。<br>还有就是按量付费还是预置容量，比如<a href="https://docs.aws.amazon.com/zh_cn/lambda/latest/dg/provisioned-concurrency.html">lambda</a>，<a href="https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/ProvisionedThroughput.html">dynamodb</a>，都有类似的配置，预置容量会产生一定费用，但是也有好处，万一大量请求打过来，自动扩容会有一定的延迟，不至于打个措手不及，也不存在冷启动的问题，看似按量付费很安好，但是有个大炕在没法设置上限的情况下都不推荐使用按量付费，要不然就会就先开头案例的悲剧，搞不好有个压力测试过来，海量的弹性&#x3D;&gt;海量的钱，直接:sob:就</li></ol><p>3 成本治理<br>为什么需要成本治理？因为资源太多了计费太复杂人管不过来，比如team创建了一个resource用来做测试的，后来再也没用过，然后就一直闲置在哪里消耗你的钱<br>所以治理一般都是通过监控API探测是否闲置，是否利用率低可将配，是否付费方式可调整，等等有一系列和成本相关的规则。<br>基本上每个云厂都会有一个**Advisor的云服务（毕竟都是抄AWS），里面有一个部分就是做成本管理，比如AWS的<a href="https://aws.amazon.com/cn/premiumsupport/technology/trusted-advisor/">trusted-advisor</a> 另外还有一个做的特别好的也是各厂借鉴的对象<a href="https://morpheusdata.com/hybrid-cloud-management/cost-optimization-finops/">Morpheus</a>,不要误会这个厂是做云资源管理的cost manage只是其中一个功能，在<a href="https://www.gartner.com/reviews/market/cloud-management-tooling">garter上排名</a>还挺高第二；可见现在云治理的复杂度，AWS管你的基础设施，还得再找个人帮你管AWS上的资源。。。:sweat_smile:</p><p>4.低成本的产品&#x2F;架构<br>之前看过一个QQ空间团队分享过一个概念（原视频找不到了）， 单客户IT成本&#x3D;服务客户数&#x2F;服务器数 以前主要是硬件服务器，现在更多的是云服务，可能现在 单客户IT成本&#x3D;服务客户数&#x2F;IT资源成本。<br>很简单就是以前需要100台机器搞定的事，现在用好的技术&#x2F;架构 10台就能搞定。<br>还有就是如果是没什么人用低流量不重要的服务，难道你要买一个4核8G的Mysql+1G redis配套吗，直接一个sqlite不香吗，大概就是这个意思。</p><p>5.低成本编程思维<br>API能一次查询搞定就不两次，精简log输出（不让collect上去都要为storage付费），更好性能能低硬件需求。。。。。还有哪些大家来补充吧。。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>云原生</tag>
+      
+      <tag>内部分享</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>做个不讲理的人</title>
+    <link href="/1225_%E5%81%9A%E4%B8%AA%E4%B8%8D%E8%AE%B2%E7%90%86%E7%9A%84%E4%BA%BA/"/>
+    <url>/1225_%E5%81%9A%E4%B8%AA%E4%B8%8D%E8%AE%B2%E7%90%86%E7%9A%84%E4%BA%BA/</url>
+    
+    <content type="html"><![CDATA[<p>首先澄清一下笔者所说的“不讲理”不是对人对事遇到冲突不讲道理、胡搅蛮缠，而是不要好为人师、以己度人，给别人讲大道理</p><p>笔者之前好为人师，喜欢给别人讲你应该这样，你为什么不这样。后来认识到每个人都有自己的认知局限，不吃他人苦 勿劝他人善。</p><p>后来喜欢给别人刨析原因，为什么你有这样的想法，为什么你有这样的行为，用各种学科的理论解释发生在周遭的事情。</p><p>以上的行为经常发生在亲密关系上包括父母、女友、朋友，后来有一天幡然醒悟这种处事方式并不可取，他给你讲他的问题并不是要你帮他解决，而是希望你能跟他共情，他需要的是沟通、陪伴、安慰。</p><p><strong>先去想多去想别人需要什么</strong>，而不是自己要给别人灌输什么观念，更不要去想从别人那里得到什么，这才是高情商。</p><p>每个人都有自己的选择和认知局限，都有自己要吃的苦要受的罪，可以在具体的事情上帮助别人，但是不要在观念上尝试改变别人，更不要以居高临下或者过来人的身份给别人灌输个人的观念。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>生活感悟</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>熟人社会与陌生人社会</title>
+    <link href="/1225_%E7%86%9F%E4%BA%BA%E7%A4%BE%E4%BC%9A%E4%B8%8E%E9%99%8C%E7%94%9F%E4%BA%BA%E7%A4%BE%E4%BC%9A/"/>
+    <url>/1225_%E7%86%9F%E4%BA%BA%E7%A4%BE%E4%BC%9A%E4%B8%8E%E9%99%8C%E7%94%9F%E4%BA%BA%E7%A4%BE%E4%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<p>你一定碰到过办事情喜欢找熟人的人，或者你就是这样的人。与之相对的是喜欢用钱解决事情，尊崇契约精神。</p><p>两种做事方式远不是个人喜好这么简单，笔者认为有更深远的历史背景。</p><p>本文的观点受王德峰《中西方文化的渊源》启发。</p><p>中国广袤的土地上长久以来是乡约宗族自制社会，所谓皇权不下县，熟人之间有信义做担保断然不会互相坑骗，如果甲坑了乙，那么甲在整个宗族的社会信用就会丧失。但这样的结构很难支撑长距离的交易，一个北方人和一个南方人之间就很难取得信任达成交易，所以也是这么多老乡会的商会会出现的原因。</p><p>以至于现在这个处事方式写到了我们文化基因中，特别是在农村地区，人情交易特别多。</p><p>但是现在资本化的过程中，营商环境越来越好，在城市多数是对门邻居都不认识的陌生人社会，很多交易合作靠的不完全是关系，而是契约。</p><p>西方推崇契约精神，其契约精神来自于海盗文化，维京人从这个岛打到另一个岛互相之间根本不认识，要想能达成合作只能靠契约。</p><p>但是这种深植在民族精神中的文化不会那么容易改变，在更长远的时间里，中国人肯定仍然是一个关系社会，可能在更多领域会更加透明不依赖人的关系依赖制度、规则更容易的达成契约促成交易。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>生活感悟</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>我的IT从业经历</title>
+    <link href="/1222_%E6%88%91%E7%9A%84IT%E4%BB%8E%E4%B8%9A%E7%BB%8F%E5%8E%86/"/>
+    <url>/1222_%E6%88%91%E7%9A%84IT%E4%BB%8E%E4%B8%9A%E7%BB%8F%E5%8E%86/</url>
+    
+    <content type="html"><![CDATA[<p>曾经计划过要把自己的经历写下来，不为别的，是真的怕自己忘了，当某一天猛地发现自己这半生是怎么过来的都朦胧了，那会是一种怎样的无措感。哲人说过：能够看到多远的历史就能够看到多远的未来。</p><h1 id="初心"><a href="#初心" class="headerlink" title="初心"></a>初心</h1><p>因为喜欢玩游戏想开发自己的游戏走进软件开发行业。</p><p>几乎每个男孩子都会喜欢玩电子游戏吧，从掌机到红白机，紧接着网吧时代的单机游戏到网络游戏。因为不满足于租别人设备玩，小学初中时期攒钱买了游戏学习机，到高中家里赞助买了电脑，当时更多的是用电脑玩游戏了，无形中也对电脑操作和一些概念比常人熟悉一些，记得高中考微机课的时候被几个同学拉去替考过。</p><p>高中寄读很少能玩电脑的，在学校只能玩玩MP3 MP4和一个波导手机，在同学的影响下首次接触到了智能机，甚为着迷。在我们哪个地方当时还只能通过邮局电子汇票给淘宝充值，一种买了三台手机，前两台就是二手的windows mobile 斯达康手机，第三台是苹果山寨手机，当时对山寨和苹果手机完全没有概念只觉得便宜、是手机、功能多。这个山寨手机每次启动游戏的时候开始总会出现Java，不明所以,于是便去网上查，当时手机上的还都是WAP站点，当时很难找到好玩如红白机的Java游戏，也就是在那时有了想自己开发游戏的想法。</p><p>高中临近毕业，对未来有了很多憧憬，当时在手机上查了很多关于软件开发是什么?软件开发工作状态之类的，对这个行业有了些兴趣，也就是在那时看到了一些Java培训的广告,参见培训从事软件开发工作应该在那时成了我的一个想法。无论如何我做出了人生第一次重大选择，现在来看也是最大的错误选择，高考之后次日就去了青岛参观培训机构之后就一门心思要参加培训，我记得当初父亲骑摩托车送我去镇上坐车时的背影，当时应该是悲壮的心情。</p><p>回想起来促使我下定决心的因素有</p><ul><li>幼稚</li><li>自身存在的急功近利的心态</li><li>因为看过一些批评教育的文章对传统教育的反感</li><li>身边同学有因为家庭条件不好主动弃学的</li><li>家里哭穷式的教育，促使我想早日经济独立，减轻家庭负担</li><li>100块钱的押金锚定心理，去到培训机构咨询的老师让我交了100块钱的订座费说是肯定能给我留名额，实际上我去了才知道根本没多少人像我这样来学，更多的都是高考失败的问题学生，报名期过来之后才过来</li><li>对高考之后如何报名一无所知，没有老师和同学联系到我</li><li>出弓没有回头箭，当时人已经在青岛，只会越来越坚定的自己的选择保持一致性</li></ul><h2 id="那个对未来充满憧憬的夜晚"><a href="#那个对未来充满憧憬的夜晚" class="headerlink" title="那个对未来充满憧憬的夜晚"></a>那个对未来充满憧憬的夜晚</h2><p>高考之后去青岛在那住应该是两夜，有一夜在琴岛那边的某大学旁边找的最便宜的宾馆，一个夹层，上下不足一米高，喝了一瓶青岛啤酒，于醉意中睡去，无限惆怅也即消散。有一日住的稍好一点，房间仅能放下一张床，那日风特别大，月亮特别亮，当时的想法仍历历在目，无知的可爱。当时想的是: 假设一天能赚100块钱一个月就是3000呢,那时应是2010年夏末。</p><h1 id="初入社会"><a href="#初入社会" class="headerlink" title="初入社会"></a>初入社会</h1><p>社会：你并不优秀</p><p>学了一段时候后，从老师这里越来越学不到什么了，课本上的知识自己通过预习就已经掌握的差不多了，实际上课的时候老师也多是照本宣科陪着练习。越往后学费越贵，第三个学期学费大概是1万多，加起来这么多学费就有点事与愿违了。于是第三个学期就没续费了，铁了心要退学，之后校长还好言相劝，肯定也是没劝住。有这个想法之后就自己在宿舍疯狂的找网上视频教程学习，好像看过张孝祥的，尚学堂，硅谷动力吧，起床就看，坐着看的痔疮都犯了当时。</p><p>当时是在58同城上开始找工作，第一次是电脑城卖器材的想做个商城，让我给他搞，没有办公场所，就在柜台旁边，我干了两天实在受不了了，第二天他给我打电话让我过去， 我说在家给你做，他意思是不行还是啥，然后就不了了之了。那个时候也还没想怎么挣钱，就像实践一把，工作中学习有些真实的经验。</p><p>找到第二个工作是在宿舍不远处的一家软件公司，世隆软件。当时面试官知道可能是缺人吧说让我试试。但是开发语言是Delphi，于是一边学习业务一边Delphi,业务是做报关管理软件，将分散的海运订单集中到一个集装箱，主要是给一些小的货运公司用。自我感觉一直挺好的，干了不到一个月，被女人事叫到办公室告知我没通过试用明天不用来了，具体说什么我不记得了，只记得她把我这几天的公司直接现金给我了，700多块钱有零有整，这是我除了初中毕业和母亲去临沂陶瓷厂打工挣的钱之外，人生第一次挣到钱。</p><h2 id="拉萨迷途"><a href="#拉萨迷途" class="headerlink" title="拉萨迷途"></a>拉萨迷途</h2><p>被辞退之后就没怎么再找工作，也找不到。当时联系了张贺说是出来创业，干什么没想好，说是要做菜煎饼连锁想肯德基一样，标准化开遍世界。年轻总是有很多想法，很多的冲动。他果真辍学来青岛了，他去了城阳找了楚虹祥，楚虹祥在粥全粥到做厨子，于是我也去了城阳找他们，当时所有的东西打包一起不过一个小拉箱。可能是张贺没说动楚，也可能楚不像我们这样天真，稀里糊涂我们两个在哪里干了两周，住在集体宿舍，吃着大锅饭，大概觉得这辈子不能就这样交代了，我们应该都萌生了这个想法，辞职的时候厨师长还是劝我们，肯定终归也是劝不住。</p><p>我们的目标是跳票坐火车去鄂尔多斯，那个年代逃票还是有操作空间的。之所以去鄂尔多斯是因为当时鄂尔多斯是中国GDP最高的地方，我们以为那里应该遍地是黄金，我们当时不知道是为什么他是GDP最高的地方。我们从城阳火车站出发，做的绿皮车，车到了，开闸，一窝子人挤上去，夜里，熙熙攘攘，那就是最真实的人间。经过了那些地方下车睡觉休息已经记不清了。</p><p>到了鄂尔多斯，人总是要工作干活才能生存的，于是我们去找工作，我记得去一个地方面试，人家问我们会开车吗，我们:不会。最后找了个肯德基干，干了两天，因为一直住宾馆，想让主管帮忙提前安排宿舍，之后主管答应了，我们却退却了，可能又感觉到难道人生就这样交代了吗? </p><p>于是当即我们就改道去了火车站，刚好有车要发往格尔木，没买上票，站务人员就赶紧让我们上车了，说是上了再补票。</p><p>之后我们便到了拉萨，逗留了几日，也无甚兴致，也没多少钱了，张贺的钱套在股票上，我借给了他一些，买不到一起的票，然后就个各自回了。他回家之后没多久就去参军了。</p><p>之后我回了老家短暂停留之后，便去了徐州，希望能在徐州找一份工作，逗留数日，也没能求职成功，我记得是，在老矿大旁边和考研的一个女生一起合租，多少次都有生理上的冲动，且按下不表。当时小米1发布，去网吧抢到了预售。</p><p>还得学习，之后看到了黑马程序员，先培训还学费的模式很适合我，反正没钱根本没有负债的概念，而且当时android是高薪的代名词，于是就去争取，当时是第四期。每个学员都要面试，大多数都是刚毕业的大学生，我记得当时面试官说我摄像头不清晰，当时家里还是电话线拨号上网，于是我只能去镇上网吧开视频面试，做了自我介绍，毕竟是挣钱吗，多我一个学生也不会有什么成本，面试是过了，等开学去北京。</p><h1 id="从北京到唐山"><a href="#从北京到唐山" class="headerlink" title="从北京到唐山"></a>从北京到唐山</h1><p>到了北京从火车站到西二旗，出了地铁站天刚蒙蒙亮，出口有卖煎饼果子的，四块钱一个，要了一个，真好吃，心想大城市就是不一样。先去的机构做了面试题，过了之后，就去找宿舍了，宿舍在唐家岭，就是电视剧《蚁族的奋斗》讲的那种地方，4个人合租。本来是要讲Android的，不知道什么原因更多的是在讲Java web，老师是仅次于张孝祥的咖位，讲的挺好的，之前网盘还保留他的教学视频，后来清空了，就再也想不清来他叫什么了。</p><p>可能是半年多的课程结束之后，我们就都开始去找工作了。那是2011年端午节，我的情况以实相告愿意要我，这家公司叫: 信联技嘉，是做联通人力外包的，老板想创业做医疗信息平台，对标的是好大夫，当时看病难是个社会关注度很高的话题。我去的时候就两个开发，另外两个开发不知道什么原因走了，老板又从联通调来了三个人，一男两女。开始我做的还是比较核心的领域，学习怎么写爬虫，研究Berkeley DB，后来新来的领导让我把所有的web接收参数改成Map并且写word文档记录参数对照表。和我信奉的OOP设计相悖，简直是有违信仰一般的不可接受，强行按着吃屎一样的感觉，没找好下家的情况下我就裸辞了。现在来看当时他要这么搞可能是联通是这样做的，当时的软件发布周期长，为了灵活性，总之不可接受，不干了，在我之后的生涯中也有过一次类似的因为方案不可接受不干的。</p><p>当时工作住在远郊的农村筒子楼里，早晚做很长时间的公交车。之后就没有很容易的找到工作，学费还款也停止了。这时候就没有这么坚持了，能挣钱活下去的差不多别的工作也愿意干的。于是找了一个图书管理员的工作，想着能够在大学里再继续学习，干了才发根本不会是自己想的那样，每天的工作就是把还回来的书放回书架原来位置。根本不会有自己的时间。没多久就不干了。</p><p>后来还是找其他IT相关的岗位，为了好找工作还去办了假证。中间还去面过久其软件android岗，跑了很远的路，做了演示，并未成功。之后就是神舟数码的实施岗，因为是项目需要人，加上实施本身也不需要太高的技术水平，面试很容易就过了，原公司叫北京智蓝外包到神舟数码，在中信建投老员工培训了两个星期就把我派到了唐山，起初有时候周末还回来，后来干脆就把北京的房子退了，住在了唐山租的宿舍，唐山的宿舍三室两厅一厨一卫，项目组3个人，基本就我一个人常驻。</p><h2 id="沉浸学习与青春躁动"><a href="#沉浸学习与青春躁动" class="headerlink" title="沉浸学习与青春躁动"></a>沉浸学习与青春躁动</h2><p>在唐山的生活基本就是两点一线，每天的工作量也不大，工作也不忙，跟着银行人员的作息上下班早9晚5，每天在食堂吃饭，也没什么开销，一个月六七千块，也攒下了一点钱。</p><p>抓住这个机会买了一些书想沉下来好好学习了，先学了工作相关的shell，当时的工作主要是实施一个自动化运维的平台，在上写一些自动化脚本，配置一些工作流，定时执行或手动触发自动执行，减轻银行的手动运维工作。当时是AIX系统kshell,window系统写的auto3，当时多数自动化需求都靠着我现学现查shell给实现了，就有一个日结系统，是aix系统图形化的，每个命令执行实际上是输出一屏的字符，自动化不了，需要开发API接口，因为涉及到第三方厂商，项目经理推来推去也推不动。那个时候买了c语言和iOS开发和一些闲书，想着之后做iOS游戏开发，最终肯定是没有学会。青春期的浮躁，有生理上的需要需要被满足，这个也按下不表了。</p><h2 id="从唐山到深圳"><a href="#从唐山到深圳" class="headerlink" title="从唐山到深圳"></a>从唐山到深圳</h2><p>工作上进入舒适区加上又有年轻气盛的骚动，时间久了便呆不住了，干了应该有快两年，手里也有估计是二三万吧，就想着去深圳，因为深圳是冒险和机会的代名词。技术也不想干了，因为不够酷找不到女朋友，那什么又酷又能挣到钱，DJ。</p><p>于是到了深圳，住了一天群租房，之后在蔡屋围租了一间隔断房。在陌陌上认识了一个DJ小刚，经他介绍去了KKMail旁边的公寓楼顶层：摩登娱乐，交了学费要学DJ，为此还特意买了个Mac book pro为了能用那个打碟软件。认识了很多人，几乎每天都跟着老师去酒吧喝酒，玩了半年多，钱快花完了，之后Mark找我去带老外全国各地酒吧演出，也因此飞了很多地方，在这期间还认识了一个女朋友。</p><p>工作是没有着落，梦想也破灭了，感受过奢华，但奢华不属于我。快过年了要没钱回家了，就想着以后就干烘培吧，就找了个烘培学徒，在中央厨房，集体宿舍，说是学徒也不会怎么教，机械化的劳动，干了一个月发了工资，买了最便宜的火车，回老家了。在老家接到深圳大哥Eric的电话，意思是回去帮我安排酒吧驻场，但我心意已经知道自己不太适合干DJ，也没有起初想象中那么美好，拒绝了，大哥挺失望的。</p><h1 id="从广州到东莞"><a href="#从广州到东莞" class="headerlink" title="从广州到东莞"></a>从广州到东莞</h1><p>过完年和阿哲一起去了广州，住在广州大学城，租的一个宾馆一层的一间房。在广州找了一段时间工作，最后还是找了做实施的工作，做的是建材瓷砖销售的ERP软件，<a href="http://www.gzwebway.com/">万维软件</a>。广州培训了一段时间，跟着跑了一趟郑州历练，然后就被派到东莞长期驻守，于是广州的房子也退了，阿哲之前就已经去了珠海，等我回去的时候东西都潮的发霉了。东莞的房子也不错，三室一厅一厨一卫，中午客户管饭。</p><p>工作就是基于这个软件做二次开发，软件是.Net开发的，当时整个软件就是两个人开发的其中一个就是老板，软件能做一些自定义表单自定义流程。稍微有技术含量的就是琢磨怎么写SQL，用的SQLserver数据库，比较多的工作实际上是在写SQL。</p><p>慢慢就进入舒适区，而且身在异乡，周围的人说的都是粤语，越发想回家乡，也越来越觉得实施没有技术含量，而且注定要频繁出差很难维持稳定的关系，于是下定决定去了济南，那应该是2014年吧。</p><h1 id="在济南在深圳"><a href="#在济南在深圳" class="headerlink" title="在济南在深圳"></a>在济南在深圳</h1><p>兜转了将近三年，高中同学们快大学毕业了，我又回到开发岗。</p><p>济南有很多同学在，第一天到济南就投奔了升光，在他大学宿舍住了一夜，之后住在张良那里，之后便和他合租一间。</p><p>之后便用假学历求职，成功面试了佰钧成外包到华为，当时打动面试官的应该是问我exist和in的区别，mybatis#和$的区别，我都答的很好，因为是外包佰钧成估计也知道是假的并未深追究，当时还在华能大厦后来又搬到奥体旁边。</p><p>当时是在ESOP集团业务组，用到的主要是java web技术，JSP mybatis structs Jquery,因为连不上外网遇到问题只能去查几个开放的网站csdn cnblog，当时主动加了很多版，也摸鱼看了很多cnblog,那个时候玩LOL也比较痴迷了，下班了就是玩游戏。搬到奥体没多久说是要找一波人去南京做新架构，我当时考虑去南京就不能用我刚攒的电脑玩游戏了就没去，和我玩的比较好的一个朋友去了，当时也没加他微信，失去了联系方式。</p><p>当时解决了一个比较复杂的动态表单的问题，依然有些自满，加上沉迷游戏，因为有一个问题找到我说是我的问题，我气不过和代理组长也有些冲突，代理组长说我不愿意加班早上来的还晚态度不好，现在我也没弄清楚是什么问题，反正就是气不过再加上前台对外包都有一些歧视，提辞职了，走流程时招我进来的领导问我要去干嘛，我说和朋友去创业，纯属是吹牛逼了当时，当时是想和大朋搞快餐外卖，最终也是没弄到一起去，干了应该有一年半多，裸辞找Java开发工作。</p><p>面试了几家都不是很顺利，包括还去了浪潮面试，因为两个面试安排在同一天，上午完了赶下午浪潮迟到了，5，6个人一起面效果不是很好，当时就感受到不会有戏了，当时问了我一个问题，如果用JS写一个类，我好像说JavaScript有class关键字然后巴拉巴拉并没有让面试官满意。</p><p>之后面试了一手活，当时还在居民楼里，领导冯峰给我讲我们用到很多互联网新技术，你来了能学到很多，没多考虑工作就来了一个是真的希望能学到新技术，最主要的考量是应该不会查我学历，果然，下周入职之后直接拉到工位看代码搞需求了。冯总是个大牛，工作中确实也学到了新技术，redis，mongodb,spring mvc。但是当时的代码所有方法都是静态的，我很是不解，冯总说你知不知道Play framework，模仿的是这种风格，有一回加班很晚，冯总送我回家，跟他讨论JVM内存布局堆栈之类的，当时对JVM很懵懂，有一回他推荐我看 <a href="https://book.douban.com/subject/3652388/">《程序员的自我修炼》</a>,当时硬着头皮读了不是很懂,只是建立了一些概念，有时候加班晚了干脆直接在房里子睡了，直到后来搬到新的办公楼。</p><p>后来为了融资要在深圳筹备新的办公室，期间我们集体出差深圳一次，和扩招来的小白一起工作，很多人是冯总为了招人方便充门面招进来的。当时我们还讨论是按照技术分组还是按照业务分组的问题，当时住的是太空房睡眠舱。没多久我们就回去了，因为冯总不想频繁出差影响夫妻感情，加上利益分配不均要走了，他们集体又回到了老东家瑞银信，然后公司就留我一个人在济南，老板总部在泰山。</p><h2 id="快乐的游戏时光"><a href="#快乐的游戏时光" class="headerlink" title="快乐的游戏时光"></a>快乐的游戏时光</h2><p>就我一个人也就几乎不去公司，在家办公，说是办公因为没有自控力多数是在玩游戏，讽刺的是那个时期还买了一本书叫《自控力》可能我也知道自己该控制自己，总部也很少找过来安排工作，最后还是我自己主动提的让我去深圳但是要按照深圳的薪资，于是就从刚6000涨薪到7000直接就涨到了1万4。在南山区公司附近租了一个3000多的主卧隔断，当时刘振也在深圳学习iOS开发，第一天去深圳还是住的他那。工作也没多大的动力，只是有得没得看一些文章学一些东西，主要的心思还在玩游戏上了当时。后来不到一个多月慎重深圳的团队要解散了，让我回泰安说是还按照深圳的薪水发，我没愿意去，我觉得在深圳仍然是有无限可能，我不能就这么回去交代了。之后我没有立即找工作，而是天天在家里玩游戏，玩了一个暑假应该，没多少钱了必须出来工作了。</p><p>面试了几家，当时面试了百果园给他讲了一手活的redis分片部署每个分片又是两台主从备份，可能这点打动了领导，愿意要我，可能是我怕查学历，而且还想找更好的机会就没去。还面试了坏男孩，技术实力确实不行，面试官说，我们这个岗位想找一个资深的Java。之后面试了海航，问的都是常用的技能，回答还不错，还和面试官扯了一下看的《重新定义公司》这本书，可能也是这个打动了终面的领导，给我发了offer。但是当时我不想再用假证了，入职当天我就坦白了，要求提供证书原件和复印件我没有，后来HR找了招人的领导，拒绝了。之后我就没有再找工作了，也是有点伤了，加上当时喜欢的女孩子在徐州，然后就回家了，回到家就去考了驾照，这段时间也快把游戏戒了。</p><h1 id="来到徐州"><a href="#来到徐州" class="headerlink" title="来到徐州"></a>来到徐州</h1><p>学完车，看了地图，天南海北的大城市都去过了，不想去外面了，周围的大城市也就徐州了，加上自己女神在徐州然后就来了徐州。这时候手里也有点钱了，租的宾馆一天一百块钱。开始还没有直接找开发工作，想自己干开水果店，还去水果店打了两天工，确实没受了，开始在58上找工作。</p><p>然后就到了东华软件，当时给面试官说我没有学历，他说让我去办一个假的就行，既然能这样我就欣然愿意去了。当时工作在烟厂，要做一个MES综合管理系统，也是因为招不到人干活所以才能让我这样入职。工作几乎总是加班，搬到了宿舍就在烟厂后面，也是两点一线，当时是在痴迷于技术开发和追女神之间，两者不可兼得。编程时真的是沉浸了进去，写jquery datagrid表格插件做数据curd，引入了Springmvc和原来的struct2共存，引入了mybatis与hibernate共存。干了半年多因为一件事离职了加上一直觉得领导是傻逼，做的一个代办功能，要集成到南京那边团队做的手机一个壳应用中，需要按照那边要求的格式提供，我觉得我这个领域模型设计就是这样，你应该自己加一个node层自己做适配，也是我不够变通很理性主义，看了一些文章就认为是大道，总之很不愉快愤而裸辞，走前南京大领导还想让我到南京去帮他做架构，没答应。还有一个事也是促使我离职的，就是一直没给我过试用期，当时还很羞涩不敢给公司提，想着最长六个月罢了，后来才发现是我自己的申请邮件没发送成功，公司流程自然也没人主动过问。后来离职公司人事还有问我要给我提前交的社保，我说把我这个试用期的工资发了不就够了，多了我也不要了。</p><h2 id="从程序员到技术总监"><a href="#从程序员到技术总监" class="headerlink" title="从程序员到技术总监"></a>从程序员到技术总监</h2><p>之后面试了几家公司，一家万德福虽然薪资较高但是嫌远没去，来了野马软件，当时也是以假学历入职，入职的时候老板也没看，后来一起喝酒的时候给他坦白了，他说他知道他一眼能看出来，不知道他是不是吹牛逼，他也是没上过大学的，可见去小公司主要是干活的，学历不是很重要。</p><p>再次期间潜心研究技术，做项目，开始从极客时间上学习，开始从得到上学习，开始买一技术书，想要把自己大学欠缺的补足。自己的学习回想这个同事们分享，主动找老板让我给他们培训，主动承担了老板之前负责的系统模块，周末一起来对接，自己也乐在其中，完全没有了女人方面的心思和烦恼。</p><p>之后办公室被任命为技术总监，开始研究管理，研究研发流程，我像一个海绵吸收着所需的知识。</p><p>再次期间对项目上使用的技术逐渐深入掌握，期间费好大心思搞了angular1.6mobile前端，主要考虑他们之前做过这快开发，之后也是我自己开发，对一些深入的东西又了一些概念，比如IO模型，一致性hash。现在来看那个时期属于半瓶水的状态，比身边的人强很多，从书上学习了重构等模式上的概念。</p><p>随着智慧工地项目逐渐完成，有改不完的BUG，没有新的技术刺激，逐渐疲惫，感觉到了天花板，之后做了新项目智慧园区也是为了尝鲜用了Spring-cloud-alibaba,对微服务这一套有一些实践但仍有些懵懂。这个时候可以说是一个有经验的程序了。对项目管理，产品管理，对企业都有很多的无力感。</p><p>最后老板在南京成立公司，出差了一次去带南京的团队，因为预感到之后可能将一直这样下去频繁的出差，出差南京拿着徐州的公司，当时也谈了女朋友了就是我现在的老婆，最终这个事情是起因，裸辞了。</p><p>因为要交接的工作很多而且没有人接，我就录直播视频，很多业务和技术细节设计，整个系统的复杂度很高。一个月的时间，起初我们怎么面试，主要是做一些准备，当时想的也很清楚，如果徐州找不到合适的就去外地，去杭州。当时谈了一家米八八我薪资要1万2他们给不了，因为我当时薪资就是1万2肯定不能跳槽了反而降薪，其他的外包公司和一些小公司我也看不上去。于是主要的面试都约的是杭州的了。</p><p>在野马成长了很多学到了很多，但是要说具体是什么却很难讲出来，可能也是不够系统，更多的是一些经验吧， 包括失败的经验。毕竟是3年的时间。三年的时间现在寥寥数字便被我总结了，也挺怅然若失的。</p><h1 id="来到杭州"><a href="#来到杭州" class="headerlink" title="来到杭州"></a>来到杭州</h1><p>2020年六月来的杭州，来之前面试了几家公司，都是直言大专学历，因为我函授的大专文凭快毕业的。记得来之前和刘振喝分别酒，刚喝完出门接到一个电话，是我找的内推菜鸟的面试，问我方便吧，我说方便酒趁这酒意面试了，其中问道ReentrantLock锁原理的时候没有回答对，总之大厂无缘了，但是很多外包进大厂却有很多机会，打开简历几乎都是外包在找，来杭州之前就答应了软通的offer，我说要 * 她主动给了我 *+3k 于是就来了，之后还有一个团队也愿意要，直接拒绝了也没有谈钱，之前还去了辅料易去面试，记得领导问我以后的职业规划是什么，我说，做技术职业合伙人。</p><p>之后入职便开始着手对老系统进行重构，并且疯狂的学习，不仅是学习阿里的技术，包括极客时间的很多专栏都下载到本地看了，到现在极客时间也不能满足我了，又一次发现英语才是进入更高信息世界的大门，接触的多了格局和视野慢慢也提升了，加上报了本科的函授，还是想更系统的把<a href="https://www.yuque.com/docs/share/65540b45-d76e-47f5-882c-e7329c780368">计算机知识</a>学通。</p><p>目前为止一年半了，外包职级升到了专家，薪资加了3K,开辟了React Go两项新技能，云原生领域窥得一些门槛，外包终究不是归宿，也尝试过一次面试，因为学历的原因机会都很难得到。</p><p>现在唯有继续学习，才能走到更远的未来。我还想再冲击一波大厂，有点古时候范进中举的那个味了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>职场</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>职场</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>35岁程序员怎么办</title>
+    <link href="/1221_35%E5%B2%81%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%8E%E4%B9%88%E5%8A%9E/"/>
+    <url>/1221_35%E5%B2%81%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%8E%E4%B9%88%E5%8A%9E/</url>
+    
+    <content type="html"><![CDATA[<p>众所周知在国内35岁是程序员的一道坎。</p><p>笔者没有35岁刚刚30岁，如果35岁再来思考这个问题肯定已经晚了，那么对还没有35岁的人正确的问题应该:怎么做才能迈过35岁这道坎?</p><p>35岁的程序员都去做了什么? </p><ul><li>转行 </li><li>创业 </li><li>做到了高管，更高级的打工人</li><li>高级程序员 ,更垂直更专业的领域，比如数据库开发，SAP开发</li><li>软件外包，个体户</li><li>移民、出海</li><li>…</li></ul><p>对于一个持续学习，对新技术抱有热情，愿意敲代码，没什么高大上背景的程序员除了上面的选择还有什么可能性?</p><p>对于喜欢编程的人，转行从头开始肯定心有不甘。做高管也不是混年头就能坐上的，如果你没能在一家公司呆住,35岁仍然主动去求职,小公司和大公司自然不会优先考虑35岁的高管。成为高管必然有过人的眼界、能力、格局。技术管理和技术研发是两条路线很难兼顾。当你在深入研究各种底层技术的时候对商业，战略，管理必然很难兼顾。</p><p>目前软件外包多数也是低技术含量的脏活累活，软件外包公司吃不到产品成功带来的增长红利，更多的是面对一些不成熟的甲方。外包行业公开领域的订单价格战激烈，针对不成熟客户只看单一的价格因素。私域的订单往往需要商业政务关系才能拿到。</p><p>盲目创业是不可取的，特别是对码农们来说，出身农村家境并不殷实。一生可能也只有开一次枪的机会。</p><p>那么这个时代还有没有可能程序员通过自己的技能不被企业雇佣也能谋生？我认为是有的。</p><p>其实现代的<a href="https://news.sciencenet.cn/htmlnews/2021/8/463527.shtm">码农们</a>和父辈在的工地上的水泥工，瓦工，木工没有本质上的区别，都是工人阶级，只是技能不通，从事领域不同，劳动方式不同。</p><p>笔者认为对于普通程序员来说低风险创业、利用技能谋生大概有几个阶段。</p><ul><li>工具 利用技能做出能满足特定行业或特殊人群的软件产品、解决方案</li><li>社区 使用工具的人组成的社群</li><li>平台 将更多的人、公司纳入商业模式之中</li></ul><p>一开始就想着做平台自然是行不通的了，中国互联网初期还能通过烧钱买量，现在互联网进入了精细化运营的时代。</p><p>程序员们将自己的经验转化成解决方案，必然要去了解产品，运营，用户需求，技术只是实现方式。每个人都可以基于自己的领域和认知将技术变现。看不到需求就可以先解决自己的问题，周边朋友遇到的问题。</p><p><strong>我想要解决的问题</strong></p><p>人自然是有软件需求的，只是这个人可能是特定的人群，特定的行业。大厂做的都是具有广阔市场的大众需求的软件产品。对一些小众需求肯定是有的，并不需要费劲心思去琢磨市场需求，我们看到的市面上所有收费的软件都是我们的机会。可能是我们以更低的成本做一次，或者更好的体验做一次，或者基于开源的方案做一些可用性的工作封装成完整的解决方案,降低使用门槛都是有价值的。</p><p>举一些例子</p><ul><li>字幕翻译软件</li><li>多平台投稿软件</li><li>批量删除微博软件</li><li>聊天记录恢复软件</li><li>自托管的媒体服务器</li></ul><p>一些软件是纯客户端的，一些软件是需要服务端计算的，还有一些解决方案是自托管的软件</p><p>自托管的软件举一些例子</p><ul><li>tiny-tiny rss </li><li>mastodon </li><li><a href="https://github.com/awesome-selfhosted/awesome-selfhosted">awesome-selfhosted</a></li></ul><p>自托管的部署是有一些技术门槛的，一般普通人是做不到的。笔者觉得<a href="https://www.reddit.com/r/selfhosted/">越来越多的人</a>是愿意使用自托管服务的，有很多软件使用场景是不需要平台的，平台的价值在于边际递减、规模效应。针对这些场景加入我们能够降低自托管软件的部署和使用门槛，让更多的人能够使用自托管软件肯定是有价值的，必然也是有商业利润可得的。</p><p>想象的终极场景，这里用系统指代这个解决方案</p><ul><li>小白想使用tiny-tiny rss服务于是通过系统一键安装到云计算平台</li><li>安装过程中需要小白云计算平台授权</li><li>小白想使用收费软件A服务 于是通过系统一键安装到云平台</li><li>A服务提供商提供n年运维服务</li><li>小白发现tiny-tiny rss有些问题通过平台找到小王进行运维服务</li></ul><p>这里的软件服务上和目前各个云厂商上的云市场类似，但是云计算的软件市场需要审核，更面向企业，系统的软件服务更多是开源的自托管系统，达到第三阶段平台时，有软件服务商参与生态才有意义。</p><p><strong>平台要做的事</strong></p><p>定义软件交付模式，软件包格式</p><p>基础能力通过开源提供给软件开发商: 激活码</p><p><strong>演化路线</strong></p><p>自托管软件资讯 -&gt;  自托管软件工具  -&gt; 收费小工具</p><p>​-&gt; 社区</p><p><strong>技术方案</strong></p><p>关键技术的标准化成为了创新基础设施</p><p>容器 terraform  跨平台客户端（electron）</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>程序员</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
