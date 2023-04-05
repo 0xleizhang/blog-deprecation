@@ -1,11 +1,9 @@
-on:
-  push:
-    branches:
-      - master
-
+name: Hexo deploy
+run-name: auto deploy
+on: [push]
 jobs:
-  deploy:
+  Hexo-Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Hexo Auto Deploy
         uses: bluekrow/hexo-auto-deploy@v1.1.0
