@@ -1,4 +1,5 @@
  
+hexo => hugo
 
 ```
 hexo new "2021-12-30-title"
